@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+import net.hkpark.cockstalgiacore.core.dto.ResultDto;
 
 @Getter
-@Builder
+@SuperBuilder
 @ToString
-public class SkillResultDto {
-    @JsonProperty("data")
-    private final Object data;
+public class SkillResultDto extends ResultDto {
+
 }
