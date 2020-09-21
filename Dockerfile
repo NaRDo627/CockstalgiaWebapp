@@ -5,5 +5,5 @@ RUN gradle bootJar
 
 FROM java:8
 COPY --from=compile /home/gradle/project/build/libs/cockstalgia-core-0.0.1-SNAPSHOT.jar .
-ENTRYPOINT ["java", "-Dspring.profiles.active=local","-jar","./cockstalgia-core-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","./cockstalgia-core-0.0.1-SNAPSHOT.jar"]
 EXPOSE 8080
