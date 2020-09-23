@@ -7,6 +7,10 @@ import lombok.ToString;
 
 import java.util.List;
 
+/**
+ * 스킬 payload는 스킬 실행시 봇 시스템이 스킬 서버에게 전달하는 정보입니다.
+ * payload는 사용자의 정보, 발화, 실행 블록, 파라미터 등의 정보를 포함합니다.
+ */
 @Getter
 @NoArgsConstructor
 @ToString

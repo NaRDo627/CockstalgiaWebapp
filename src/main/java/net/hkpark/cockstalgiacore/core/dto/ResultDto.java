@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class ResultDto {
     @JsonProperty("message")
-    String message;
+    String message = "OK";
 
     @JsonProperty("data")
     Object data;
