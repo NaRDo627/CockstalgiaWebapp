@@ -4,6 +4,7 @@ package net.hkpark.cockstalgiacore.chatbot.controller;
 import lombok.extern.slf4j.Slf4j;
 import net.hkpark.cockstalgiacore.chatbot.dto.SkillRequestDto;
 import net.hkpark.cockstalgiacore.chatbot.dto.SkillResultDto;
+import net.hkpark.cockstalgiacore.core.annotation.PrintArguments;
 import net.hkpark.cockstalgiacore.core.dto.ResultDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/api/chatbot/v1")
 public class KakaoDefaultController {
+    @PrintArguments
     @RequestMapping(value = "/datetime", method = RequestMethod.POST)
     public ResponseEntity<SkillResultDto> datetime(@RequestBody SkillRequestDto skillResultDto) {
         log.info(skillResultDto.toString());
