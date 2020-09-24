@@ -30,4 +30,10 @@
              app.push("latest")
          }
      }
+  
+     stage('Run image') {
+         docker.image('hygoogi/cockstalgia-webapp:latest').withRun {c ->
+         sh 'echo "Run successfully"'
+       }
+     }
  }
