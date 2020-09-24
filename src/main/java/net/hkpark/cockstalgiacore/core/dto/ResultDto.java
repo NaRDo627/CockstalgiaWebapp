@@ -6,10 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
+@Builder
 @Getter
 public class ResultDto {
     @JsonProperty("message")
+    @Builder.Default
     String message = "OK";
 
     @JsonProperty("data")
