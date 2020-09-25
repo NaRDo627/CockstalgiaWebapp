@@ -26,22 +26,8 @@
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
          docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-             app.push("${env.BUILD_NUMBER}")
+             /*app.push("${env.BUILD_NUMBER}")*/
              app.push("latest")
          }
-     }
-
-
-     stage('Run image') {
-        environment {
-            DATASOURCE_URL = credentials('spring-datasource-url')
-            DATASOURCE_USERNAME = credentials('spring-datasource-username')
-            DATASOURCE_PASSWORD = credentials('spring-datasource-password')
-            DATASOURCE_DRIVER = credentials('spring-datasource-driver')
-        }
-
-      docker.image('hygoogi/cockstalgia-webapp').withRun("-p 8080:8080 -e 'spring.datasource.url=${env.DATASOURCE_URL}' -e 'spring.datasource.username=${env.DATASOURCE_USERNAME}' -e 'spring.datasource.password=${env.DATASOURCE_PASSWORD}' -e 'spring.datasource.driver-class-name=${env.DATASOURCE_DRIVER}' --name cockstalgia-webapp --rm") {c ->
-         sh 'echo "Run successfully"'
-       }
      }
  }
