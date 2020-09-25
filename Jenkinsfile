@@ -32,7 +32,7 @@
      }
   
      stage('Run image') {
-         docker.image('hygoogi/cockstalgia-webapp:latest').withRun('-p 8080:8080 -e $COCKSAPP_ENV --name cockstalgia-webapp --rm') {c ->
+      app.withRun('-p 8080:8080 -e ${env.COCKSAPP_ENV} --name cockstalgia-webapp --rm') {c ->
          sh 'echo "Run successfully"'
        }
      }
