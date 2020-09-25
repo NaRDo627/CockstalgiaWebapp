@@ -33,7 +33,7 @@
   
      stage('Run image') {
 
-      app.withRun('-p 8080:8080 -e "spring.datasource.url=${env.DATASOURCE_URL}" -e "spring.datasource.username=${env.DATASOURCE_USERNAME}" -e "spring.datasource.password=${env.DATASOURCE_PASSWORD}" -e "spring.datasource.driver-class-name=${env.DATASOURCE_DRIVER}" --name cockstalgia-webapp --rm') {c ->
+      docker.image("hygoogi/cockstalgia-webapp").withRun('-p 8080:8080 -e "spring.datasource.url=${env.DATASOURCE_URL}" -e "spring.datasource.username=${env.DATASOURCE_USERNAME}" -e "spring.datasource.password=${env.DATASOURCE_PASSWORD}" -e "spring.datasource.driver-class-name=${env.DATASOURCE_DRIVER}" --name cockstalgia-webapp --rm') {c ->
          sh 'echo "Run successfully"'
        }
      }
