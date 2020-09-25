@@ -3,7 +3,7 @@ FROM gradle:6.6.1-jdk8 as compile
 WORKDIR /home/gradle/project
 
 # Only copy dependency-related files
-COPY build.gradle gradle.properties settings.gradle /app/
+COPY build.gradle settings.gradle /app/
 
 # Only download dependencies
 # Eat the expected build failure since no source code has been copied yet
