@@ -40,7 +40,7 @@
             DATASOURCE_DRIVER = credentials('spring-datasource-driver')
         }
 
-      docker.image('hygoogi/cockstalgia-webapp').withRun("-p 8080:8080 -e 'spring.datasource.url=$DATASOURCE_URL' -e 'spring.datasource.username=$DATASOURCE_USERNAME' -e 'spring.datasource.password=$DATASOURCE_PASSWORD' -e 'spring.datasource.driver-class-name=$DATASOURCE_DRIVER' --name cockstalgia-webapp --rm") {c ->
+      docker.image('hygoogi/cockstalgia-webapp').withRun("-p 8080:8080 -e 'spring.datasource.url=${DATASOURCE_URL}' -e 'spring.datasource.username=${DATASOURCE_USERNAME}' -e 'spring.datasource.password=${DATASOURCE_PASSWORD}' -e 'spring.datasource.driver-class-name=${DATASOURCE_DRIVER}' --name cockstalgia-webapp --rm") {c ->
          sh 'echo "Run successfully"'
        }
      }
