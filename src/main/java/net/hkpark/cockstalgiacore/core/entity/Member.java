@@ -52,8 +52,9 @@ public class Member {
     @OneToOne
     private Admin admin;
 
-    public void registerAdmin() {
+    public Admin registerAdmin() {
         this.admin = Admin.builder().member(this).authorized(false).build();
         this.modDate = LocalDateTime.now();
+        return this.admin;
     }
 }

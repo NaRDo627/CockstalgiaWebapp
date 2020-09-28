@@ -3,7 +3,7 @@ package net.hkpark.cockstalgiacore.chatbot.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.hkpark.cockstalgiacore.chatbot.service.KakaoSkillService;
+import net.hkpark.cockstalgiacore.chatbot.service.KakaoMemberService;
 import net.hkpark.cockstalgiacore.core.annotation.PrintArguments;
 import net.hkpark.cockstalgiacore.core.dto.ResultDto;
 import net.hkpark.kakao.openbuilder.dto.SkillRequestDto;
@@ -20,7 +20,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/api/chatbot")
 public class KakaoDefaultController {
-    private final KakaoSkillService kakaoSkillService;
+    private final KakaoMemberService kakaoMemberService;
 
     @PrintArguments
     @RequestMapping(value = "/datetime/v1", method = RequestMethod.POST)
