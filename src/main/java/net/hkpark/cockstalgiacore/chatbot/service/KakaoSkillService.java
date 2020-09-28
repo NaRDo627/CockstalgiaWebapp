@@ -38,10 +38,10 @@ public class KakaoSkillService {
         UserPropertiesDto userPropertiesDto = userDto.getProperties();
         String kakaoBotUserId = userDto.getId();
         String kakaoPlusFriendKey = userPropertiesDto.getPlusfriendUserKey();
-        String memberName = actionDto.getParams().get("person_name").toString();
-        if (StringUtils.isEmpty(memberName)) {
+        if (StringUtils.isEmpty(actionDto.getParams().get("person_name"))) {
             throw new InvalidValueException(ErrorMessage.REQUEST_BAD_REQUEST.getMessage());
         }
+        String memberName = actionDto.getParams().get("person_name").toString();
 
         Member newMember = Member.builder()
                 .name(memberName)
@@ -54,10 +54,10 @@ public class KakaoSkillService {
         } catch (DataIntegrityViolationException e) { // 이 경우 중복 데이터일 가능성이 높다.
             String msg = ErrorMessage.DB_INSERT_FAILURE_ALREADY_EXISTS.getMessage();
             log.error(msg, "member", e);
-            throw new EntityAlreadyExistsException(msg);
+            throw new EntityAlreadyExistsException("이미 존재하는 멤버입니다.");
         }
 
-        return ResultDto.builder().data("OK").build();
+        return ResultDto.builder().data("등록되었습니다.").build();
     }
 
     private boolean isPlusFriend(SkillRequestDto skillRequestDto) {

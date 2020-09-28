@@ -1,5 +1,6 @@
 package net.hkpark.cockstalgiacore.core.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import net.hkpark.cockstalgiacore.core.dto.ResultDto;
 import net.hkpark.cockstalgiacore.core.exception.BusinessException;
 import net.hkpark.cockstalgiacore.core.exception.EntityAlreadyExistsException;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice(annotations = RestController.class)
 public class GlobalControllerAdvice {
     @ExceptionHandler(value = InvalidValueException.class)
@@ -36,6 +38,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<?> handleUnknownException(Exception e) {
+        log.error("Unexpected Exception : ", e);
         return handleException(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
