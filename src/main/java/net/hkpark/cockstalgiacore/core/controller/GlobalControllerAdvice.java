@@ -2,6 +2,7 @@ package net.hkpark.cockstalgiacore.core.controller;
 
 import net.hkpark.cockstalgiacore.core.dto.ResultDto;
 import net.hkpark.cockstalgiacore.core.exception.BusinessException;
+import net.hkpark.cockstalgiacore.core.exception.EntityAlreadyExistsException;
 import net.hkpark.cockstalgiacore.core.exception.EntityNotFoundException;
 import net.hkpark.cockstalgiacore.core.exception.InvalidValueException;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,11 @@ public class GlobalControllerAdvice {
         return handleException(e, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = EntityAlreadyExistsException.class)
+    public ResponseEntity<?> handleEntityAlreadyExistsException(EntityAlreadyExistsException e) {
+        return handleException(e, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(value = BusinessException.class)
     public ResponseEntity<?> handleBusinessException(BusinessException e) {
         return handleException(e, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,6 +46,6 @@ public class GlobalControllerAdvice {
     private ResponseEntity<?> handleException(Throwable e, HttpStatus status, int errorCode) {
         String message = StringUtils.isEmpty(e.getMessage()) ? status.getReasonPhrase() : e.getMessage();
         return ResponseEntity.status(status)
-                .body(ResultDto.builder().message(message));
+                .body(ResultDto.builder().message(message).build());
     }
 }
