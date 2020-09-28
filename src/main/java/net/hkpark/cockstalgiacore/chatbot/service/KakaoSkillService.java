@@ -54,7 +54,9 @@ public class KakaoSkillService {
         } catch (DataIntegrityViolationException e) { // 이 경우 중복 데이터일 가능성이 높다.
             String msg = ErrorMessage.DB_INSERT_FAILURE_ALREADY_EXISTS.getMessage();
             log.error(msg, "member", e);
-            throw new EntityAlreadyExistsException("이미 존재하는 멤버입니다.");
+
+            // 에러 코드를 리턴하면 챗봇쪽에서 에러로 처리해버리기 때문에 200응답을 리턴.
+            return ResultDto.builder().data("이미 존재하는 멤버입니다.").build();
         }
 
         return ResultDto.builder().data("등록되었습니다.").build();
