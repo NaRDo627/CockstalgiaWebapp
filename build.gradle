@@ -41,7 +41,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation group: 'mysql', name: 'mysql-connector-java'
-	implementation 'net.hkpark:kakao-sdk:0.0.1'
+	implementation 'net.hkpark:kakao-sdk:0.0.3'
 //	compile fileTree(dir: 'libs', include: ['*.jar'])
 
 	compileOnly 'org.projectlombok:lombok'
