@@ -4,6 +4,7 @@ package net.hkpark.cockstalgiacore.core.config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -20,15 +21,27 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @Configuration
 public class TransactionConfig {
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.hikari")
-    public HikariConfig hikariConfig() {
-        return new HikariConfig();
-    }
+
+    @Value("${spring.datasource.url}")
+    String jdbcUrl;
+
+    @Value("${spring.datasource.username}")
+    String username;
+
+    @Value("${spring.datasource.password}")
+    String password;
+
+    @Value("${spring.datasource.driver-class-name}")
+    String driverClassName;
 
     @Bean
     public DataSource dataSource() {
-        return new HikariDataSource(hikariConfig());
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(jdbcUrl);
+        hikariConfig.setUsername(username);
+        hikariConfig.setPassword(password);
+        hikariConfig.setDriverClassName(driverClassName);
+        return new HikariDataSource(hikariConfig);
     }
 
     @Bean
