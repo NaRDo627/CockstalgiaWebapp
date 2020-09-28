@@ -1,19 +1,27 @@
 pipeline {
+    environment {
+        registry = "hygoogi/cockstalgia-webapp"
+        registryCredential = 'docker-hub'
+    }
     agent any
 
-    node {
-        def app
+    stages {
         stage('Clone repository') {
-            /* Let's make sure we have the repository cloned to our workspace */
+            steps {
+                /* Let's make sure we have the repository cloned to our workspace */
 
-            checkout scm
+                checkout scm
+            }
         }
 
         stage('Build image') {
             /* This builds the actual image; synonymous to
             * docker build on the command line */
+            steps {
+                sh 'docker build -t $registry:latest .'
+            }
 
-            app = docker.build("hygoogi/cockstalgia-webapp")
+            /*app = docker.build("hygoogi/cockstalgia-webapp")*/
         }
 
         /*stage('Test image') {
@@ -23,13 +31,15 @@ pipeline {
         }*/
 
         stage('Push image') {
-            /* Finally, we'll push the image with two tags:
-            * First, the incremental build number from Jenkins
-            * Second, the 'latest' tag.
-            * Pushing multiple tags is cheap, as all the layers are reused. */
-            docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
-                /*app.push("${env.BUILD_NUMBER}")*/
-                app.push("latest")
+            steps{
+                /* Finally, we'll push the image with two tags:
+                * First, the incremental build number from Jenkins
+                * Second, the 'latest' tag.
+                * Pushing multiple tags is cheap, as all the layers are reused. */
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+                    /*app.push("${env.BUILD_NUMBER}")*/
+                    sh 'docker push $registry:latest'
+                }
             }
         }
     }
