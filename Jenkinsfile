@@ -37,7 +37,7 @@ pipeline {
                 * Second, the 'latest' tag.
                 * Pushing multiple tags is cheap, as all the layers are reused. */
                 /*docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {*/
-                withDockerRegistry([ credentialsId: registryCredential, url: "https://registry.hub.docker.com" ]) {
+                withDockerRegistry([ credentialsId: registryCredential, url: "" ]) {
                     /*app.push("${env.BUILD_NUMBER}")*/
                     sh 'docker push $registry:latest'
                 }
@@ -47,7 +47,7 @@ pipeline {
 
     post {
         unsuccessful {
-            discordSend description: '', footer: '', image: '', link: 'env.BUILD_URL', result: 'UNSTABLE|FAILURE|ABORTED', thumbnail: '', title: 'env.JOB_NAME failed!!', webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
+            discordSend description: '', footer: '', image: '', link: 'env.BUILD_URL', result: 'FAILURE', thumbnail: '', title: 'env.JOB_NAME failed!!', webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
         }
     }
 }
