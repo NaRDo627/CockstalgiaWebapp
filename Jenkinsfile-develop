@@ -1,0 +1,69 @@
+pipeline {
+    environment {
+        registry = "hygoogi/cockstalgia-webapp"
+        registryCredential = 'docker-hub'
+        devPcUrl = credential('dev-pc-url')
+    }
+    agent any
+
+    stages {
+        stage('Clone repository') {
+            steps {
+                /* Let's make sure we have the repository cloned to our workspace */
+
+                checkout scm
+            }
+        }
+
+        stage('Build image') {
+            /* This builds the actual image; synonymous to
+            * docker build on the command line */
+            steps {
+                sh 'docker build -t $registry:develop .'
+            }
+
+            /*app = docker.build("hygoogi/cockstalgia-webapp")*/
+        }
+
+        /*stage('Test image') {
+        app.inside {
+        sh 'echo "Tests passed"'
+        }
+        }*/
+
+        stage('Push image') {
+            steps{
+                /* Finally, we'll push the image with two tags:
+                * First, the incremental build number from Jenkins
+                * Second, the 'latest' tag.
+                * Pushing multiple tags is cheap, as all the layers are reused. */
+                /*docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {*/
+                withDockerRegistry([ credentialsId: registryCredential, url: "" ]) {
+                    /*app.push("${env.BUILD_NUMBER}")*/
+                    sh 'docker push $registry:develop'
+                }
+            }
+        }
+
+        stage('Deploy image') {
+            steps{
+                sshagent(credentials : ['ubuntu-dev-pc']) {
+                    /*sh 'ssh -o StrictHostKeyChecking=no user@hostname.com uptime'*/
+                    sh 'ssh -v $devPcUrl' +
+                    sh 'ssh $devPcUrl "~/deploy-container.sh $registry:develop"'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            discordSend description: '**Build:** ' + env.BUILD_NUMBER + '\n' +
+                    '**Status:** success', footer: '', image: '', link: env.BUILD_URL, result: 'SUCCESS', thumbnail: '', title: env.JOB_NAME + ' ' + env.BUILD_DISPLAY_NAME, webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
+        }
+        unsuccessful {
+            discordSend description: '**Build:** ' + env.BUILD_NUMBER + '\n' +
+                    '**Status:** failure', footer: '', image: '', link: env.BUILD_URL, result: 'FAILURE', thumbnail: '', title: env.JOB_NAME + ' ' + env.BUILD_DISPLAY_NAME, webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
+        }
+    }
+}
