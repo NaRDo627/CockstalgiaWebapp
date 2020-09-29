@@ -2,7 +2,7 @@ pipeline {
     environment {
         registry = "hygoogi/cockstalgia-webapp"
         registryCredential = 'docker-hub'
-        devPcUrl = credential('dev-pc-url')
+        devPcUrl = credentials('dev-pc-url')
     }
     agent any
 
