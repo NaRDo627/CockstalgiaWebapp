@@ -53,10 +53,12 @@ pipeline {
 
     post {
         success {
-            discordSend description: '', footer: '', image: '', link: env.BUILD_URL, result: 'SUCCESS', thumbnail: '', title: env.JOB_NAME, webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
+            discordSend description: '**Build:** $BUILD_NUMBER\n' +
+                    '**Status:** success', footer: '', image: '', link: env.BUILD_URL, result: 'SUCCESS', thumbnail: '', title: '$JOB_NAME $BUILD_DISPLAY_NAME', webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
         }
         unsuccessful {
-            discordSend description: '', footer: '', image: '', link: env.BUILD_URL, result: 'FAILURE', thumbnail: '', title: env.JOB_NAME, webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
+            discordSend description: '**Build:** $BUILD_NUMBER\n' +
+                    '**Status:** failure', footer: '', image: '', link: env.BUILD_URL, result: 'FAILURE', thumbnail: '', title: '$JOB_NAME $BUILD_DISPLAY_NAME', webhookURL: 'https://discordapp.com/api/webhooks/757641684866564286/bUBzIkSqol9Wc7VF23aMdLvkNamQgA7SDoiaXkx2jY8beue5qtRKqvbDQ4N0MJt73EZJ'
         }
     }
 }
