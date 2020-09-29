@@ -12,7 +12,8 @@ WORKDIR /home/gradle/project
 COPY . /home/gradle/project
 RUN gradle bootJar
 
-FROM java:8
-COPY --from=compile /home/gradle/project/build/libs/cockstalgia-core-0.0.1-SNAPSHOT.jar .
-ENTRYPOINT ["java","-jar","./cockstalgia-core-0.0.1-SNAPSHOT.jar"]
+#FROM java:8
+#COPY --from=compile /home/gradle/project/build/libs/cockstalgia-core-0.0.1-SNAPSHOT.jar .
+#ENTRYPOINT ["java","-jar","./cockstalgia-core-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/home/gradle/project/build/libs/cockstalgia-core-0.0.1-SNAPSHOT.jar"]
 EXPOSE 8080
