@@ -5,12 +5,15 @@ import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.exception.MemberAlre
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.exception.MemberNotFoundException;
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.util.SkillResponseUtil;
 import net.hkpark.cockstalgia.core.dto.ResultDto;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(annotations = RestController.class,
         basePackages = "net.hkpark.cockstalgiacore.chatbot.kakaoopenbuilder.member")
 public class MemberControllerAdvice {
