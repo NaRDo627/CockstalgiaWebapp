@@ -10,7 +10,7 @@ WORKDIR /home/gradle/project
 # RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
 
 COPY . /home/gradle/project
-RUN gradle bootJar
+RUN gradle clean bootJar
 
 #FROM java:8
 #COPY --from=compile /home/gradle/project/build/libs/cockstalgia-core-0.0.1-SNAPSHOT.jar .
