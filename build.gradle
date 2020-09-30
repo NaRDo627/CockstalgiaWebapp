@@ -2,10 +2,6 @@ buildscript {
 	repositories {
 		mavenCentral()
 		jcenter()
-		// jcenter pre-deployment testing code
-		maven {
-			url "https://dl.bintray.com/naldo627/kakao-sdk"
-		}
 	}
 }
 
@@ -27,12 +23,19 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://oss.sonatype.org/content/repositories/snapshots"
+	}
 	jcenter()
 	mavenLocal()
-	maven {
-		url "https://dl.bintray.com/naldo627/kakao-sdk"
-	}
 }
+
+Properties properties = new Properties()
+file("gradle.properties").withInputStream { properties.load(it) }
+
+ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
+ext.libVersion = (! profile.equals("prod")) ? "snapshot" : "release";
+ext.kakaoSdkVersion = properties.getProperty("kakao-sdk-${libVersion}-version")
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -41,7 +44,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation group: 'mysql', name: 'mysql-connector-java'
-	implementation 'net.hkpark:kakao-sdk:0.0.5'
+	implementation "net.hkpark.kakao:kakao-sdk:${kakaoSdkVersion}"
 //	compile fileTree(dir: 'libs', include: ['*.jar'])
 
 	compileOnly 'org.projectlombok:lombok'
