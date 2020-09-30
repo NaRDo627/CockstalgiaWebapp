@@ -34,7 +34,9 @@ public class BasicCardUtil {
                 .description(description)
                 .thumbnail(thumbnail)
                 .build();
-        Arrays.stream(buttons).map(basicCard.getButtons()::add).close();
+        for(ButtonDto button : buttons) {
+            basicCard.getButtons().add(button);
+        }
         return basicCard;
     }
 }

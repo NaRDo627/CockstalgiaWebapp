@@ -37,6 +37,10 @@ ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
 ext.libVersion = (! profile.equals("prod")) ? "snapshot" : "release";
 ext.kakaoSdkVersion = properties.getProperty("kakao-sdk-${libVersion}-version")
 
+configurations.all {
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
@@ -63,3 +67,9 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+bootJar.dependsOn(test)
+/*bootJar {
+	doFirst {
+		tasks.test.executeTests();
+	}
+}*/
