@@ -18,7 +18,7 @@ public class CocktailReceipeController {
     private final CocktailBasicService cocktailBasicService;
 
     @PrintArguments
-    @RequestMapping(value = "/receipe/v1", method = RequestMethod.POST)
+    @PostMapping(value = "/receipe/v1")
     public ResponseEntity<?> base(@RequestBody SkillRequestDto skillResultDto) {
         SkillResponseDto responseDto = cocktailBasicService.getReceipe(skillResultDto);
         return ResponseEntity.ok(responseDto);

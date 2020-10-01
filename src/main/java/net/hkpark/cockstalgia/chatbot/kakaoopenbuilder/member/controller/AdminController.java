@@ -6,10 +6,7 @@ import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.member.service.MemberServ
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
 import net.hkpark.kakao.openbuilder.dto.response.SkillResponseDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -18,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
     private final MemberService memberService;
 
-    @RequestMapping(value = "/register/v1", method = RequestMethod.POST)
+    @PostMapping(value = "/register/v1")
     public ResponseEntity<?> registerAdmin(@RequestBody SkillRequestDto skillResultDto) {
         SkillResponseDto resultDto = memberService.registerAdmin(skillResultDto);
         return ResponseEntity.ok(resultDto);

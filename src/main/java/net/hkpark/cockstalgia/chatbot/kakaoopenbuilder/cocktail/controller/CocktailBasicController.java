@@ -21,12 +21,12 @@ public class CocktailBasicController {
     private final CocktailBasicService cocktailBasicService;
 
     @PrintArguments
-    @RequestMapping(value = "/description/v1", method = RequestMethod.POST)
+    @PostMapping(value = "/description/v1")
     public ResponseEntity<?> description(@RequestBody SkillRequestDto skillResultDto) {
         return ResponseEntity.ok(ResultDto.builder().data(new Date().getTime()).build());
     }
 
-    @RequestMapping(value = "/{baseName}/base/v1", method = RequestMethod.POST)
+    @PostMapping(value = "/{baseName}/base/v1")
     public ResponseEntity<?> base(@RequestBody SkillRequestDto skillResultDto, @PathVariable("baseName") String baseName) {
         SkillResponseDto responseDto = cocktailBasicService.getBaseRecipeLists(skillResultDto, baseName);
         return ResponseEntity.ok(responseDto);

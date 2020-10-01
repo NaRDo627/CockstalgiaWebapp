@@ -43,12 +43,13 @@ configurations.all {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation group: 'mysql', name: 'mysql-connector-java'
-	implementation "net.hkpark.kakao:kakao-sdk:${kakaoSdkVersion}"
+	implementation "net.hkpark:kakao-sdk:${kakaoSdkVersion}"
 //	compile fileTree(dir: 'libs', include: ['*.jar'])
 
 	compileOnly 'org.projectlombok:lombok'
