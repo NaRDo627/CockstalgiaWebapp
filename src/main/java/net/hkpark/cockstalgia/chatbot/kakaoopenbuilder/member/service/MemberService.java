@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.exception.MemberAlreadyExistsException;
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.exception.MemberNotFoundException;
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.util.SkillResponseUtil;
-import net.hkpark.cockstalgia.core.constants.ErrorMessage;
+import net.hkpark.cockstalgia.core.constant.ErrorMessage;
 import net.hkpark.cockstalgia.core.entity.Admin;
 import net.hkpark.cockstalgia.core.entity.Member;
 import net.hkpark.cockstalgia.core.exception.InvalidValueException;

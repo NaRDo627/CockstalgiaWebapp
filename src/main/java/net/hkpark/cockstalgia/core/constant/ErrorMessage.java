@@ -1,4 +1,4 @@
-package net.hkpark.cockstalgia.core.constants;
+package net.hkpark.cockstalgia.core.constant;
 
 
 public class ErrorMessage {
