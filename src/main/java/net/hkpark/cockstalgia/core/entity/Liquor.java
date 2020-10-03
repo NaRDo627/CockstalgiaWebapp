@@ -28,6 +28,9 @@ public class Liquor {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+
     @Column(name = "type", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private LiquorType type;

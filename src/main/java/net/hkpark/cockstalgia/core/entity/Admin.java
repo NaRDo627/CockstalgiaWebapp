@@ -20,7 +20,6 @@ public class Admin {
     @JoinColumn(name = "user_no", referencedColumnName = "user_no")
     private Member member;
 
-    @Builder.Default
     @Column(name = "authorized", nullable = false)
-    private boolean authorized = true;
+    private boolean authorized;
 }

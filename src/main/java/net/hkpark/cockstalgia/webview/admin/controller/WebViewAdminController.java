@@ -21,9 +21,13 @@ import java.util.Date;
 public class WebViewAdminController {
     private final MemberService memberService;
 
-    @PrintArguments
     @GetMapping(value = {"", "/"})
-    public String datetime(Model model) {
-        return "index";
+    public String index(Model model) {
+        return "admin/index";
+    }
+
+    @GetMapping(value = {"/cocktail"})
+    public String cocktail(Model model) {
+        return "admin/cocktail";
     }
 }

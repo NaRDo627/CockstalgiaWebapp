@@ -26,8 +26,8 @@ public class Cocktail {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "recipe", nullable = false)
-    private String recipe;
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "base_no", referencedColumnName = "liquor_no")
