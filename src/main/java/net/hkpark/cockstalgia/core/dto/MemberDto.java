@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.hkpark.cockstalgia.core.annotation.MappingName;
 import net.hkpark.cockstalgia.core.entity.Member;
 
 @Builder

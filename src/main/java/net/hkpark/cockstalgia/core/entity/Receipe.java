@@ -29,9 +29,6 @@ public class Receipe {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    @Column(name = "simple_recipe", nullable = false)
-    private String simpleRecipe;
-
     @ManyToOne
     @JoinColumn(name = "cocktail_no", referencedColumnName = "cocktail_no")
     private Cocktail cocktail;

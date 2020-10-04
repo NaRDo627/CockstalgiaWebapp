@@ -34,7 +34,4 @@ public class Liquor {
     @Column(name = "type", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private LiquorType type;
-
-    @OneToMany(mappedBy = "base")
-    private List<Cocktail> mappedCocktails;
 }
