@@ -44,3 +44,38 @@ String.prototype.makeShort = function (maxLength) {
 
     return this.substring(0, maxLength) + "...";
 }
+
+const _request = function (url, method, data, successCallback, failureCallback) {
+    const defaultFailureCallback = function (xhr, status, errorThrown) {
+        if (status === "canceled")
+            return;
+
+        alert("처리 중 오류가 발생하였습니다.")
+        console.warn(xhr)
+        console.warn(status)
+        console.warn(errorThrown)
+    };
+
+    failureCallback = typeof failureCallback !== "undefined" ? failureCallback : defaultFailureCallback;
+
+    $.ajax({
+        url: url,
+        data: data,
+        type: method,
+        contentType: "application/json",
+        dataType: "json"
+    })
+    .done(successCallback)
+    .fail(failureCallback)
+    .always(function () {
+        // setTimeout(function () { isAjaxing = false; }, 1000);
+    });
+}
+
+const getRequest = function (url, successCallback, failureCallback) {
+    return _request(url, "GET", null, successCallback, failureCallback);
+}
+
+const postRequest = function (url, data, successCallback, failureCallback) {
+    return _request(url, "POST", data, successCallback, failureCallback);
+}
