@@ -29,12 +29,12 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">칵테일</h1>
+                <div class="align-items-center justify-content-between mb-4" style="display: flex">
+                    <h1 class="h3 mb-0 text-gray-800" style="display: inline-block">칵테일</h1>
                     <!--<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                             class="fas fa-download fa-sm text-white-50"></i> Add Cocktail</a>-->
-                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                            data-toggle="modal" data-target="#cocktailModal">
+                    <button type="button" class="d-none btn btn-sm btn-primary shadow-sm"
+                            data-toggle="modal" data-target="#cocktailModal" style="display: inline-block!important;">
                         <i class="fas fa-download fa-sm text-white-50"></i> 칵테일 추가
                     </button>
                 </div>
@@ -47,13 +47,17 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+<!--                                <colgroup>
+                                    <col style="width:25%">
+                                    <col style="width:35%">
+                                    <col style="width:15%">
+                                    <col style="width:25%">
+                                </colgroup>-->
                                 <thead>
                                 <tr>
                                     <th>이름</th>
                                     <th>설명</th>
-                                    <th>이미지 URL</th>
                                     <th>베이스</th>
-                                    <th>등록일</th>
                                     <th>수정일</th>
                                 </tr>
                                 </thead>
@@ -61,9 +65,7 @@
                                 <tr>
                                     <th>이름</th>
                                     <th>설명</th>
-                                    <th>이미지 URL</th>
                                     <th>베이스</th>
-                                    <th>등록일</th>
                                     <th>수정일</th>
                                 </tr>
                                 </tfoot>
@@ -72,16 +74,16 @@
 
                                 </tbody>
                             </table>
-                            <div style="display: none" class="item-dummy">
-                                <tr>
-                                    <td>이름</td>
-                                    <td>설명</td>
-                                    <td>이미지 URL</td>
-                                    <td>베이스</td>
-                                    <td>등록일</td>
-                                    <td>수정일</td>
-                                </tr>
-                            </div>
+                            <table style="display: none" class="item-dummy">
+                                <tbody>
+                                    <tr>
+                                        <td>이름</td>
+                                        <td>설명</td>
+                                        <td>베이스</td>
+                                        <td>수정일</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
                         </div>
                     </div>
@@ -171,9 +173,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        const dataTableApi = $('#dataTable').DataTable();
+        // const dataTableApi = $('#dataTable').DataTable();
         // ######################### 함수 표현 시작 ############################
         const renderItems = function () {
+            $('#dataTable').DataTable().destroy();
             $("#dataTable tbody").empty();
             $.ajax({
                 url: "/data/cocktail/v1",
@@ -182,18 +185,20 @@
                 dataType: "json"
             })
             .done(function (json) {
-                $.each(json.data, function (item) {
-                    const $dummy = $("div.item-dummy").find("tr").clone();
-                    $dummy.children("td")[0].text(item.name);
-                    $dummy.children("td")[1].text(item.description);
-                    // $dummy.children("td")[2].text(item.simpleRecipe);
-                    $dummy.children("td")[2].text(item.imageUrl);
-                    $dummy.children("td")[3].text(item.base);
-                    $dummy.children("td")[4].text(item.regDate.join("-"));
-                    $dummy.children("td")[5].text(item.modDate.join("-"));
+                $.each(json.data, function (idx, item) {
+                    const $dummy = $("table.item-dummy > tbody > tr").clone(true).show();
+                    $($dummy.children("td")[0]).text(item.name);
+                    const descriptionShort = item.description.makeShort()
+                    $($dummy.children("td")[1]).text(descriptionShort);
+                    // $($dummy.children("td")[2]).text(item.simpleRecipe);
+                    // $($dummy.children("td")[2]).text(item.imageUrl);
+                    $($dummy.children("td")[2]).text(item.base);
+                    // $($dummy.children("td")[4]).text(item.regDate);
+                    $($dummy.children("td")[3]).text(item.modDate);
                     $("#dataTable tbody").append($dummy);
                 });
                 // dataTableApi.ajax.reload(); TODO DataTable을 활용한 다이나믹 랜더링 구현
+                $('#dataTable').DataTable();
             })
             .fail(function (xhr, status, errorThrown) {
                 if (status === "canceled")
@@ -225,6 +230,7 @@
                 $("textarea").val("");
                 $("select").val("");
                 $('#cocktailModal').modal('hide')
+                renderItems();
             })
             .fail(function (xhr, status, errorThrown) {
                 if (status === "canceled")
@@ -256,7 +262,6 @@
             }
 
             registerItem();
-            renderItems();
         });
         // ######################### 이벤트 핸들러 등록 끝 ############################
     });

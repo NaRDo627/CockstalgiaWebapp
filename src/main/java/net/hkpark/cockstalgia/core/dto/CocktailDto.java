@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.hkpark.cockstalgia.core.annotation.ExcludeMapping;
+import net.hkpark.cockstalgia.core.annotation.MappingDateFormat;
 import net.hkpark.cockstalgia.core.constant.LiquorType;
 import net.hkpark.cockstalgia.core.entity.Member;
 
@@ -36,6 +37,16 @@ public class CocktailDto {
 
     @JsonProperty("imageUrl")
     private String imageUrl;
+
+    @MappingDateFormat
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("regDate")
+    private String regDate;
+
+    @MappingDateFormat
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("modDate")
+    private String modDate;
 
     @JsonProperty("base")
     private LiquorType base;

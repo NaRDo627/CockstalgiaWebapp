@@ -8,6 +8,7 @@ import net.hkpark.cockstalgia.core.dto.ResultDto;
 import net.hkpark.cockstalgia.core.entity.Cocktail;
 import net.hkpark.cockstalgia.core.repository.CocktailRepository;
 import net.hkpark.cockstalgia.core.repository.MemberRepository;
+import net.hkpark.cockstalgia.core.service.CocktailDataService;
 import net.hkpark.cockstalgia.core.util.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,10 +24,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CocktailDataController {
     private final CocktailRepository cocktailRepository;
+    private final CocktailDataService cocktailDataService;
     
     @GetMapping(value = {"v1"})
     public ResponseEntity<ResultDto> cocktailGet() {
-        List<Cocktail> cocktails = cocktailRepository.findAll();
+        List<CocktailDto> cocktails = cocktailDataService.getAllCocktailList();
         return ResponseEntity.ok(ResultDto.builder().message("OK").data(cocktails).build());
     }
 

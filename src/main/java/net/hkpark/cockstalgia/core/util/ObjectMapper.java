@@ -1,13 +1,20 @@
 package net.hkpark.cockstalgia.core.util;
 
 import lombok.extern.slf4j.Slf4j;
+import net.hkpark.cockstalgia.core.annotation.MappingDateFormat;
 import net.hkpark.cockstalgia.core.annotation.ExcludeMapping;
 import net.hkpark.cockstalgia.core.annotation.MappingName;
 import net.hkpark.cockstalgia.core.exception.BusinessException;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 public class ObjectMapper {
@@ -23,6 +30,10 @@ public class ObjectMapper {
             }
 
             try {
+                if(Objects.isNull(field.get(object))) {
+                    continue;
+                }
+
                 String fieldName = field.getName();
                 if (field.getAnnotation(MappingName.class) != null) {
                     MappingName mappingName = field.getAnnotation(MappingName.class);
@@ -30,7 +41,7 @@ public class ObjectMapper {
                 }
                 fieldMap.put(fieldName, field.get(object));
             } catch (IllegalAccessException e) {
-                log.error("Access failed to {} has failed", field.getName());
+                log.error("Access to {} has failed", field.getName());
             }
         }
 
@@ -38,37 +49,70 @@ public class ObjectMapper {
             Field[] targetFields = targetClass.getDeclaredFields();
             T target = targetClass.getDeclaredConstructor().newInstance();
 
-            for (Field field : targetFields) {
-                field.setAccessible(true);
-                String fieldName = field.getName();
-                if (field.getAnnotation(MappingName.class) != null) {
-                    MappingName mappingName = field.getAnnotation(MappingName.class);
+            for (Field targetField : targetFields) {
+                targetField.setAccessible(true);
+                String fieldName = targetField.getName();
+                if (targetField.getAnnotation(MappingName.class) != null) {
+                    MappingName mappingName = targetField.getAnnotation(MappingName.class);
                     fieldName = mappingName.value();
                 }
                 if (! fieldMap.containsKey(fieldName)) {
                     continue;
                 }
 
-                Object value = fieldMap.get(field.getName());
+                Object incomingValue = fieldMap.get(targetField.getName());
 
-                /*if (field.isEnumConstant()) {
-                    Enum<?> enumValue = (Enum<?>)value;
+                /*if (targetField.isEnumConstant()) {
+                    Enum<?> enumValue = (Enum<?>)incomingValue;
                     for(Enum<?> e : enumValue.getClass().getEnumConstants()) {
-                        if (e != value) {
+                        if (e != incomingValue) {
                             continue;
                         }
 
-                        field.set(target, e);
+                        targetField.set(target, e);
                     }
                 } else {
-                    field.set(target, value);
+                    targetField.set(target, incomingValue);
                 }*/
-                field.set(target, value);
+
+
+                if (targetField.getAnnotation(MappingDateFormat.class) != null) {
+                    if (! (targetField.getType().equals(LocalDateTime.class)) && ! (targetField.getType().equals(String.class))) {
+                        log.warn("Field used MappingDateFormat annotation is not LocalDateTime or String. ignoring..");
+                        continue;
+                    }
+
+                    MappingDateFormat mappingDateFormat = targetField.getAnnotation(MappingDateFormat.class);
+                    String formatString = mappingDateFormat.value();
+
+                    if (incomingValue instanceof LocalDateTime) {
+                        if (! targetField.getType().equals(String.class)) {
+                            throw new BusinessException("Target field is String but incoming field is not LocalDateTime");
+                        }
+
+                        LocalDateTime incomingDatetime = (LocalDateTime) incomingValue;
+                        targetField.set(target,
+                                incomingDatetime.format(DateTimeFormatter.ofPattern(formatString)));
+
+                    } else if (incomingValue instanceof String){
+                        if (! targetField.getType().equals(LocalDateTime.class)) {
+                            throw new BusinessException("Target field is LocalDateTime but incoming field is not String");
+                        }
+
+                        String incomingDatetimeString = (String) incomingValue;
+                        targetField.set(target,
+                                LocalDateTime.parse(incomingDatetimeString, DateTimeFormatter.ofPattern(formatString)));
+                    }
+                    continue;
+                }
+
+                targetField.set(target, incomingValue);
             }
 
             return target;
         } catch (Exception e) {
-            throw new BusinessException("Mapping failed : ", e);
+            log.error("Mapping failed : ", e);
+            throw new BusinessException(e);
         }
     }
 }

@@ -35,3 +35,12 @@ String.prototype.numberFormat = function(){
 
     return num.format();
 };
+
+String.prototype.makeShort = function (maxLength) {
+    maxLength = typeof maxLength !== 'undefined' ? maxLength : 15;
+    if (this.length <= maxLength) {
+        return this;
+    }
+
+    return this.substring(0, maxLength) + "...";
+}
