@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.member.service.MemberService;
 import net.hkpark.cockstalgia.core.annotation.PrintArguments;
 import net.hkpark.cockstalgia.core.dto.ResultDto;
+import net.hkpark.cockstalgia.core.repository.CocktailRepository;
+import net.hkpark.cockstalgia.core.service.CocktailDataService;
 import net.hkpark.cockstalgia.webview.admin.service.WebViewAdminService;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,11 @@ import java.util.List;
 @RequestMapping("/admin")
 public class WebViewAdminController {
     private final WebViewAdminService webViewAdminService;
+    private final CocktailRepository cocktailRepository;
 
     @GetMapping(value = {"", "/"})
     public String index(Model model) {
+        model.addAttribute("cocktailCount", cocktailRepository.count());
         return "admin/index";
     }
 
