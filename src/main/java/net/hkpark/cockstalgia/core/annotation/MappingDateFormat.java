@@ -7,10 +7,10 @@ import java.lang.annotation.Target;
 
 /**
  * {@link net.hkpark.cockstalgia.core.util.ObjectMapper} 에 사용되는 어노테이션<br />
- * 사용된 필드에는 자료형에 맞게 날짜 데이터가 변환된다. <br />
+ * 사용된 Field 에는 자료형에 맞게 날짜 데이터가 변환된다. (Source Field 에 사용)<br />
  * 변환 기준은 {@link java.time.format.DateTimeFormatter} 사용 <br />
  * {@link java.time.LocalDateTime} 객체의 필드에 사용할 경우<br />
- * String 으로 들어온 날짜를 {@link java.time.LocalDateTime}으로 변환 - 이외 상황 에러<br /><br />
+ * {@link java.lang.String} 으로 들어온 날짜를 {@link java.time.LocalDateTime}으로 변환 - 이외 상황 에러<br /><br />
  *
  * {@link java.lang.String} 객체의 필드에 사용할 경우<br />
  * {@link java.time.LocalDateTime} 으로 들어온 날짜를 {@link java.lang.String} 으로 변환 - 이외 상황 에러<br /><br />
