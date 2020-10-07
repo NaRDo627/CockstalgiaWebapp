@@ -22,13 +22,13 @@ public class CocktailBasicController {
 
     @PrintArguments
     @PostMapping(value = "/description/v1")
-    public ResponseEntity<?> description(@RequestBody SkillRequestDto skillResultDto) {
+    public ResponseEntity<?> description(@RequestBody SkillRequestDto skillRequestDto) {
         return ResponseEntity.ok(ResultDto.builder().data(new Date().getTime()).build());
     }
 
     @PostMapping(value = "/base/v1")
-    public ResponseEntity<?> base(@RequestBody SkillRequestDto skillResultDto) {
-        SkillResponseDto responseDto = cocktailBasicService.getBaseRecipeLists(skillResultDto);
+    public ResponseEntity<?> base(@RequestBody SkillRequestDto skillRequestDto) {
+        SkillResponseDto responseDto = cocktailBasicService.getBaseRecipeLists(skillRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 }
