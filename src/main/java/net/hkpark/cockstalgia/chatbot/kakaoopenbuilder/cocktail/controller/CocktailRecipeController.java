@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/chatbot/cocktail")
-public class CocktailReceipeController {
+public class CocktailRecipeController {
     private final CocktailBasicService cocktailBasicService;
 
     @PrintArguments
-    @PostMapping(value = "/receipe/v1")
+    @PostMapping(value = "/recipe/v1")
     public ResponseEntity<?> base(@RequestBody SkillRequestDto skillResultDto) {
-        SkillResponseDto responseDto = cocktailBasicService.getReceipe(skillResultDto);
+        SkillResponseDto responseDto = cocktailBasicService.getRecipe(skillResultDto);
         return ResponseEntity.ok(responseDto);
     }
 }

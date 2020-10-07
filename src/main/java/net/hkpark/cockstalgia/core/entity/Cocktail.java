@@ -1,9 +1,6 @@
 package net.hkpark.cockstalgia.core.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import net.hkpark.cockstalgia.core.annotation.ExcludeMapping;
 import net.hkpark.cockstalgia.core.constant.LiquorType;
 
@@ -12,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cocktail")

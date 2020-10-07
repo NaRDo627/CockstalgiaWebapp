@@ -33,7 +33,7 @@
                     <h1 class="h3 mb-0 text-gray-800" style="display: inline-block">칵테일</h1>
                     <!--<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                             class="fas fa-download fa-sm text-white-50"></i> Add Cocktail</a>-->
-                    <button type="button" class="d-none btn btn-sm btn-primary shadow-sm"
+                    <button type="button" class="d-none btn btn-sm btn-primary shadow-sm" id="add-cocktail"
                             data-toggle="modal" data-target="#cocktailModal" style="display: inline-block!important;">
                         <i class="fas fa-download fa-sm text-white-50"></i> 칵테일 추가
                     </button>
@@ -55,7 +55,7 @@
                                 </colgroup>-->
                                 <thead>
                                 <tr>
-                                    <th>이름</th>
+                                    <th>이름 (엔티티명)</th>
                                     <th>설명</th>
                                     <th>베이스</th>
                                     <th>수정일</th>
@@ -63,7 +63,7 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>이름</th>
+                                    <th>이름 (엔티티명)</th>
                                     <th>설명</th>
                                     <th>베이스</th>
                                     <th>수정일</th>
@@ -127,7 +127,7 @@
                 <form class="needs-validation" novalidate>
                     <input type="hidden" name="cocktailNo" id="cocktail-no">
                     <div class="form-group">
-                        <label for="name" class="col-form-label">이름</label>
+                        <label for="name" class="col-form-label">이름(엔티티명) - 오픈빌더의 엔티티명과 일치해야 함</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                         <div class="invalid-feedback">
                             칵테일 이름을 입력해 주세요.
@@ -238,6 +238,14 @@
         // ######################### 초기 실행 끝 ############################
 
         // ######################### 이벤트 핸들러 등록 시작 ############################
+        $("#add-cocktail").on("click", function (e) {
+            const $form = $("form.needs-validation");
+            $form.removeClass("was-validated")
+            $("input").val("");
+            $("textarea").val("");
+            $("select").val("");
+        });
+
         $("#save-cocktail-btn").on("click", function (e) {
             const $form = $("form.needs-validation");
             $form.addClass("was-validated")

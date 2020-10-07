@@ -26,9 +26,9 @@ public class CocktailBasicController {
         return ResponseEntity.ok(ResultDto.builder().data(new Date().getTime()).build());
     }
 
-    @PostMapping(value = "/{baseName}/base/v1")
-    public ResponseEntity<?> base(@RequestBody SkillRequestDto skillResultDto, @PathVariable("baseName") String baseName) {
-        SkillResponseDto responseDto = cocktailBasicService.getBaseRecipeLists(skillResultDto, baseName);
+    @PostMapping(value = "/base/v1")
+    public ResponseEntity<?> base(@RequestBody SkillRequestDto skillResultDto) {
+        SkillResponseDto responseDto = cocktailBasicService.getBaseRecipeLists(skillResultDto);
         return ResponseEntity.ok(responseDto);
     }
 }

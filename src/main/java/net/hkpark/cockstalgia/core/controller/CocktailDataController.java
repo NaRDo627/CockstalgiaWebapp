@@ -42,7 +42,7 @@ public class CocktailDataController {
 
     @PutMapping(value = {"v1"})
     public ResponseEntity<ResultDto> cocktailPut(@RequestBody CocktailDto cocktailDto) {
-        cocktailDataService.saveCocktail(cocktailDto);
+        cocktailDataService.updateCocktail(cocktailDto);
         return ResponseEntity.ok(ResultDto.builder().message("OK").build());
     }
 }
