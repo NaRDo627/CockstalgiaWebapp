@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragment/common-header"/>
+    <title>Cockstalgia - Cocktails</title>
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <th:block th:replace="fragment/common-sidebar"/>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <th:block th:replace="fragment/common-topbar"/>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="align-items-center justify-content-between mb-4" style="display: flex">
+                    <h1 class="h3 mb-0 text-gray-800" style="display: inline-block">칵테일</h1>
+                    <!--<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                            class="fas fa-download fa-sm text-white-50"></i> Add Cocktail</a>-->
+                    <button type="button" class="d-none btn btn-sm btn-primary shadow-sm" id="add-cocktail"
+                            data-toggle="modal" data-target="#cocktailModal" style="display: inline-block!important;">
+                        <i class="fas fa-download fa-sm text-white-50"></i> 칵테일 추가
+                    </button>
+                </div>
+
+                <!-- Content Row -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">칵테일 종류</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+<!--                                <colgroup>
+                                    <col style="width:25%">
+                                    <col style="width:35%">
+                                    <col style="width:15%">
+                                    <col style="width:25%">
+                                </colgroup>-->
+                                <thead>
+                                <tr>
+                                    <th>이름 (엔티티명)</th>
+                                    <th>설명</th>
+                                    <th>베이스</th>
+                                    <th>수정일</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>이름 (엔티티명)</th>
+                                    <th>설명</th>
+                                    <th>베이스</th>
+                                    <th>수정일</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                            <table style="display: none" class="item-dummy">
+                                <tbody>
+                                    <tr>
+                                        <td>이름</td>
+                                        <td>설명</td>
+                                        <td>베이스</td>
+                                        <td>수정일</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <th:block th:replace="fragment/common-footer"/>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<th:block th:replace="fragment/common-modal"/>
+
+<div class="modal fade" id="cocktailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">칵테일 추가하기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" novalidate>
+                    <input type="hidden" name="cocktailNo" id="cocktail-no">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">이름(엔티티명) - 오픈빌더의 엔티티명과 일치해야 함</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                        <div class="invalid-feedback">
+                            칵테일 이름을 입력해 주세요.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">설명</label>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
+                        <div class="invalid-feedback">
+                            칵테일에 대한 설명을 입력해 주세요.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="simple-recipe" class="col-form-label">간단 레시피(옵션)</label>
+                        <textarea class="form-control" id="simple-recipe" name="simpleRecipe"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="image-url" class="col-form-label">이미지 Url</label>
+                        <input type="url" class="form-control" id="image-url" name="imageUrl" required>
+                        <div class="invalid-feedback">
+                            유효하지 않은 이미지 url입니다.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="base-liquor" class="col-form-label">베이스</label>
+                        <select class="form-control" id="base-liquor" name="base" required>
+                            <option value="" selected>선택</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" id="save-cocktail-btn">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="fragment/common-script"/>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // const dataTableApi = $('#dataTable').DataTable();
+        // ######################### 함수 표현 시작 ############################
+        const renderItems = function () {
+            $('#dataTable').DataTable().destroy();
+            $("#dataTable tbody").empty();
+            getRequest("/data/cocktail/v1", function (json) {
+                $.each(json.data, function (idx, item) {
+                    const $dummy = $("table.item-dummy > tbody > tr").clone(true).show();
+                    $dummy.attr("cocktail-no", item.cocktailNo);
+                    $($dummy.children("td")[0]).text(item.name);
+                    const descriptionShort = item.description.makeShort()
+                    $($dummy.children("td")[1]).text(descriptionShort);
+                    // $($dummy.children("td")[2]).text(item.simpleRecipe);
+                    // $($dummy.children("td")[2]).text(item.imageUrl);
+                    $($dummy.children("td")[2]).text(item.base);
+                    // $($dummy.children("td")[4]).text(item.regDate);
+                    $($dummy.children("td")[3]).text(item.modDate);
+                    $("#dataTable tbody").append($dummy);
+                });
+                $('#dataTable').DataTable();
+            });
+        }
+
+        const insertItem = function () {
+            const $form = $("form.needs-validation");
+            postRequest("/data/cocktail/v1", JSON.stringify($form.serializeObject()),
+                function (json) {
+                    alert("등록 성공.");
+                    $form.removeClass("was-validated")
+                    $("input").val("");
+                    $("textarea").val("");
+                    $("select").val("");
+                    $('#cocktailModal').modal('hide')
+                    renderItems();
+            });
+        }
+
+        const updateItem = function () {
+            const $form = $("form.needs-validation");
+            putRequest("/data/cocktail/v1", JSON.stringify($form.serializeObject()),
+                function (json) {
+                    alert("수정 성공.");
+                    $form.removeClass("was-validated")
+                    $("input").val("");
+                    $("textarea").val("");
+                    $("select").val("");
+                    $('#cocktailModal').modal('hide')
+                    renderItems();
+                });
+        }
+        // ######################### 함수 표현 끝 ############################
+
+        // ######################### 초기 실행 시작 ############################
+        renderItems();
+        getRequest("/admin/liquor-bases", function (array) {
+            $.each(array, function (idx, item) {
+                const $option = $("#base-liquor > option:selected").clone(true).attr("selected", false);
+                $option.val(item);
+                $option.text(item);
+
+                $("#base-liquor").append($option);
+            });
+        });
+
+        // ######################### 초기 실행 끝 ############################
+
+        // ######################### 이벤트 핸들러 등록 시작 ############################
+        $("#add-cocktail").on("click", function (e) {
+            const $form = $("form.needs-validation");
+            $form.removeClass("was-validated")
+            $("input").val("");
+            $("textarea").val("");
+            $("select").val("");
+        });
+
+        $("#save-cocktail-btn").on("click", function (e) {
+            const $form = $("form.needs-validation");
+            $form.addClass("was-validated")
+            if ($form[0].checkValidity() === false) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+            if ($("#cocktail-no").val() === "") {
+                insertItem();
+            } else {
+                updateItem();
+            }
+        })
+
+        $("#dataTable > tbody").on("click", "tr", function (e) {
+            const cocktailNo = $(this).attr("cocktail-no");
+
+            getRequest("/data/cocktail/{0}/v1".format(cocktailNo), function (json) {
+                const cocktail = json.data;
+                $("#cocktail-no").val(cocktail.cocktailNo);
+                $("#name").val(cocktail.name);
+                $("#description").val(cocktail.description);
+                $("#simple-recipe").val(cocktail.simpleRecipe);
+                $("#image-url").val(cocktail.imageUrl);
+                $("#base-liquor").val(cocktail.base);
+                $('#cocktailModal').modal('show')
+            });
+        });
+        // ######################### 이벤트 핸들러 등록 끝 ############################
+    });
+</script>
+
+</body>
+
+</html>

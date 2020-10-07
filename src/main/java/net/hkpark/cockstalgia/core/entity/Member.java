@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member")
@@ -47,12 +47,6 @@ public class Member {
     @Column(name = "mod_date")
     private LocalDateTime modDate = LocalDateTime.now();
 
-    @OneToOne
-    private Admin admin;
-
-    public Admin registerAdmin() {
-        this.admin = Admin.builder().member(this).authorized(false).build();
-        this.modDate = LocalDateTime.now();
-        return this.admin;
-    }
+    @Column(name = "is_admin")
+    private boolean isAdmin;
 }

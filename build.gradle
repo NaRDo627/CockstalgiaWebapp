@@ -2,10 +2,6 @@ buildscript {
 	repositories {
 		mavenCentral()
 		jcenter()
-		// jcenter pre-deployment testing code
-		maven {
-			url "https://dl.bintray.com/naldo627/kakao-sdk"
-		}
 	}
 }
 
@@ -27,21 +23,34 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://oss.sonatype.org/content/repositories/snapshots"
+	}
 	jcenter()
 	mavenLocal()
-	maven {
-		url "https://dl.bintray.com/naldo627/kakao-sdk"
-	}
+}
+
+Properties properties = new Properties()
+file("gradle.properties").withInputStream { properties.load(it) }
+
+ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
+ext.libVersion = (! profile.equals("prod")) ? "snapshot" : "release";
+ext.kakaoSdkVersion = properties.getProperty("kakao-sdk-${libVersion}-version")
+
+configurations.all {
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
 	implementation group: 'mysql', name: 'mysql-connector-java'
-	implementation 'net.hkpark:kakao-sdk:0.0.4'
+	implementation "net.hkpark:kakao-sdk:${kakaoSdkVersion}"
 //	compile fileTree(dir: 'libs', include: ['*.jar'])
 
 	compileOnly 'org.projectlombok:lombok'
@@ -60,3 +69,9 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+bootJar.dependsOn(test)
+/*bootJar {
+	doFirst {
+		tasks.test.executeTests();
+	}
+}*/

@@ -20,6 +20,13 @@ public class SkillResponseUtil {
     public static SkillResponseDto basicCardResponseDto(@NonNull String title,
                                                         @NonNull String description,
                                                         @NonNull String thumbnailUrl,
+                                                        ButtonDto... buttons) {
+        return basicCardResponseDto(title, description, thumbnailUrl, false, 0, 0, buttons);
+    }
+
+    public static SkillResponseDto basicCardResponseDto(@NonNull String title,
+                                                        @NonNull String description,
+                                                        @NonNull String thumbnailUrl,
                                                         boolean thumbnailFixedRatio,
                                                         int width,
                                                         int height,
@@ -36,7 +43,14 @@ public class SkillResponseUtil {
                 .description(description)
                 .thumbnail(thumbnail)
                 .build();
-        Arrays.stream(buttons).map(basicCard.getButtons()::add).close();
+        return basicCardResponseDto(basicCard, buttons);
+    }
+
+    public static SkillResponseDto basicCardResponseDto(BasicCardDto basicCard,
+                                                        ButtonDto... buttons) {
+        for(ButtonDto button : buttons) {
+            basicCard.getButtons().add(button);
+        }
         ComponentDto componentDto = ComponentDto.builder().basicCard(basicCard).build();
         SkillTemplateDto skillTemplateDto = SkillTemplateDto.builder().build();
         skillTemplateDto.getOutputs().add(componentDto);
@@ -53,5 +67,33 @@ public class SkillResponseUtil {
         SkillTemplateDto skillTemplateDto = SkillTemplateDto.builder().build();
         skillTemplateDto.getOutputs().add(componentDto);
         return SkillResponseDto.builder().template(skillTemplateDto).build();
+    }
+
+    public static SkillResponseDto simpleTextWithQuickReplies(@NonNull String text,
+                                                              String... messages) {
+        // message == label
+        QuickReplyDto[] quickReplies = Arrays.stream(messages).map(message ->
+                QuickReplyDto.builder()
+                        .label(message)
+                        .action("message")
+                        .messageText(message)
+                        .build())
+                .toArray(QuickReplyDto[]::new);
+
+        return simpleTextWithQuickReplies(text, quickReplies);
+    }
+
+    public static SkillResponseDto simpleTextWithQuickReplies(@NonNull String text,
+                                                              QuickReplyDto... quickReplies) {
+        // message == label
+        SimpleTextDto simpleText = SimpleTextDto.builder().text(text).build();
+        ComponentDto component = ComponentDto.builder().simpleText(simpleText).build();
+        SkillTemplateDto skillTemplate = SkillTemplateDto.builder().build();
+        skillTemplate.getOutputs().add(component);
+        for(QuickReplyDto reply : quickReplies) {
+            skillTemplate.getQuickReplies().add(reply);
+        }
+
+        return SkillResponseDto.builder().template(skillTemplate).build();
     }
 }
