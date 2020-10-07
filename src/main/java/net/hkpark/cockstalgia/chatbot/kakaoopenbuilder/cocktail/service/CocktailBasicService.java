@@ -42,7 +42,7 @@ public class CocktailBasicService {
             QuickReplyDto reply = QuickReplyDto.builder()
                     .label(cocktail.getName())
                     .action("message")
-                    .messageText(cocktail.getName() + " 칵테일 알려줘")
+                    .messageText(cocktail.getName() + " 알려줘")
 //                .blockId("5f0478173210ac0001404019")
                     .build();
             quickReplyDtos.add(reply);
