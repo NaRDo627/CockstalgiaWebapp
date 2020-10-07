@@ -12,10 +12,7 @@ import net.hkpark.cockstalgia.core.service.CocktailDataService;
 import net.hkpark.cockstalgia.core.util.ObjectMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,19 +20,29 @@ import java.util.List;
 @RequestMapping(value = "/data/cocktail/")
 @RequiredArgsConstructor
 public class CocktailDataController {
-    private final CocktailRepository cocktailRepository;
     private final CocktailDataService cocktailDataService;
-    
+
     @GetMapping(value = {"v1"})
     public ResponseEntity<ResultDto> cocktailGet() {
         List<CocktailDto> cocktails = cocktailDataService.getAllCocktailList();
         return ResponseEntity.ok(ResultDto.builder().message("OK").data(cocktails).build());
     }
 
-    @PrintArguments
+    @GetMapping(value = {"{cocktailNo}/v1"})
+    public ResponseEntity<ResultDto> cocktailGetOne(@PathVariable("cocktailNo") Integer cocktailNo) {
+        CocktailDto cocktail = cocktailDataService.getCocktailById(cocktailNo);
+        return ResponseEntity.ok(ResultDto.builder().message("OK").data(cocktail).build());
+    }
+
     @PostMapping(value = {"v1"})
     public ResponseEntity<ResultDto> cocktailPost(@RequestBody CocktailDto cocktailDto) {
-        cocktailRepository.save(ObjectMapper.mapObject(cocktailDto, Cocktail.class));
+        cocktailDataService.saveCocktail(cocktailDto);
+        return ResponseEntity.ok(ResultDto.builder().message("OK").build());
+    }
+
+    @PutMapping(value = {"v1"})
+    public ResponseEntity<ResultDto> cocktailPut(@RequestBody CocktailDto cocktailDto) {
+        cocktailDataService.saveCocktail(cocktailDto);
         return ResponseEntity.ok(ResultDto.builder().message("OK").build());
     }
 }

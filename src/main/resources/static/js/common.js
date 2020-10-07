@@ -29,6 +29,17 @@ Number.prototype.format = function(){
     return n;
 };
 
+String.prototype.format = function() {
+    var theString = this;
+
+    for (var i = 0; i < arguments.length; i++) {
+        var regExp = new RegExp('\\{' + i + '\\}', 'gm');
+        theString = theString.replace(regExp, arguments[i]);
+    }
+
+    return theString;
+}
+
 String.prototype.numberFormat = function(){
     var num = parseFloat(this);
     if( isNaN(num) ) return "0";
@@ -78,4 +89,8 @@ const getRequest = function (url, successCallback, failureCallback) {
 
 const postRequest = function (url, data, successCallback, failureCallback) {
     return _request(url, "POST", data, successCallback, failureCallback);
+}
+
+const putRequest = function (url, data, successCallback, failureCallback) {
+    return _request(url, "PUT", data, successCallback, failureCallback);
 }

@@ -125,7 +125,7 @@
             </div>
             <div class="modal-body">
                 <form class="needs-validation" novalidate>
-                    <input type="hidden" name="cocktailNo">
+                    <input type="hidden" name="cocktailNo" id="cocktail-no">
                     <div class="form-group">
                         <label for="name" class="col-form-label">이름</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -179,7 +179,7 @@
             getRequest("/data/cocktail/v1", function (json) {
                 $.each(json.data, function (idx, item) {
                     const $dummy = $("table.item-dummy > tbody > tr").clone(true).show();
-                    $dummy.attr("cocktailNo", item.cocktailNo);
+                    $dummy.attr("cocktail-no", item.cocktailNo);
                     $($dummy.children("td")[0]).text(item.name);
                     const descriptionShort = item.description.makeShort()
                     $($dummy.children("td")[1]).text(descriptionShort);
@@ -190,12 +190,11 @@
                     $($dummy.children("td")[3]).text(item.modDate);
                     $("#dataTable tbody").append($dummy);
                 });
-                // dataTableApi.ajax.reload(); TODO DataTable을 활용한 다이나믹 랜더링 구현
                 $('#dataTable').DataTable();
             });
         }
 
-        const registerItem = function () {
+        const insertItem = function () {
             const $form = $("form.needs-validation");
             postRequest("/data/cocktail/v1", JSON.stringify($form.serializeObject()),
                 function (json) {
@@ -207,6 +206,20 @@
                     $('#cocktailModal').modal('hide')
                     renderItems();
             });
+        }
+
+        const updateItem = function () {
+            const $form = $("form.needs-validation");
+            putRequest("/data/cocktail/v1", JSON.stringify($form.serializeObject()),
+                function (json) {
+                    alert("수정 성공.");
+                    $form.removeClass("was-validated")
+                    $("input").val("");
+                    $("textarea").val("");
+                    $("select").val("");
+                    $('#cocktailModal').modal('hide')
+                    renderItems();
+                });
         }
         // ######################### 함수 표현 끝 ############################
 
@@ -234,11 +247,26 @@
                 return false;
             }
 
-            registerItem();
+            if ($("#cocktail-no").val() === "") {
+                insertItem();
+            } else {
+                updateItem();
+            }
         })
 
-        $("#dataTable > tbody > tr").on("click", function (e) {
-            // TODO 칵테일 수정 로직 추가 - 특정 칵테일 조회 endpoint 추가
+        $("#dataTable > tbody").on("click", "tr", function (e) {
+            const cocktailNo = $(this).attr("cocktail-no");
+
+            getRequest("/data/cocktail/{0}/v1".format(cocktailNo), function (json) {
+                const cocktail = json.data;
+                $("#cocktail-no").val(cocktail.cocktailNo);
+                $("#name").val(cocktail.name);
+                $("#description").val(cocktail.description);
+                $("#simple-recipe").val(cocktail.simpleRecipe);
+                $("#image-url").val(cocktail.imageUrl);
+                $("#base-liquor").val(cocktail.base);
+                $('#cocktailModal').modal('show')
+            });
         });
         // ######################### 이벤트 핸들러 등록 끝 ############################
     });
