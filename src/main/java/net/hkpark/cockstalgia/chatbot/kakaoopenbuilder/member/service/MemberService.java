@@ -6,10 +6,8 @@ import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.exception.MemberAlre
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.exception.MemberNotFoundException;
 import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.util.SkillResponseUtil;
 import net.hkpark.cockstalgia.core.constant.ErrorMessage;
-import net.hkpark.cockstalgia.core.entity.Admin;
 import net.hkpark.cockstalgia.core.entity.Member;
 import net.hkpark.cockstalgia.core.exception.InvalidValueException;
-import net.hkpark.cockstalgia.core.repository.AdminRepository;
 import net.hkpark.cockstalgia.core.repository.MemberRepository;
 import net.hkpark.kakao.openbuilder.dto.request.ActionDto;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
@@ -21,14 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Objects;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final AdminRepository adminRepository;
 
     public SkillResponseDto confirmPlusFriend(SkillRequestDto skillRequestDto) {
         if (isPlusFriend(skillRequestDto)) {
@@ -72,17 +67,11 @@ public class MemberService {
         String kakaoBotUserId = userDto.getId();
 
         Member member = memberRepository.findByKakaoBotUserId(kakaoBotUserId).orElseThrow(MemberNotFoundException::new);
-        if (Objects.nonNull(member.getAdmin())) {
-            if (! member.getAdmin().isAuthorized()) {
-                return SkillResponseUtil.simpleTextResponseDto("승인 대기중입니다.");
-            }
-
-            return SkillResponseUtil.simpleTextResponseDto("이미 신청되었습니다.");
+        if (member.isAdmin()) {
+            return SkillResponseUtil.simpleTextResponseDto("신청되었습니다.");
         }
-        Admin admin = member.registerAdmin();
-        adminRepository.save(admin);
 
-        return SkillResponseUtil.simpleTextResponseDto("신청되었습니다.");
+        return SkillResponseUtil.simpleTextResponseDto("승인 대기중입니다.");
     }
 
     private boolean isPlusFriend(SkillRequestDto skillRequestDto) {
