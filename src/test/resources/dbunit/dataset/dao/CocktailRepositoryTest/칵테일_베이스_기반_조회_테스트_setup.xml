@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <cocktail cocktail_no="1" base="WHISKEY"
+              description="맨해튼은 자고로 &#39;맨햍은&#39;으로 발음해줘야 한다. 미국 맨햍은의 저녁, 빌딩 창문을 통해 바라보는 노을이 생각나는 칵테일이다. 높은 도수와 깊은 맛으로 칵테일의 여왕이라 불리는 술."
+              image_url="http://k.kakaocdn.net/dn/NsIko/btqJsjQVymO/ErBGk0suKWQKYRnsjOQsBk/800x800.jpg"
+              mod_date="2020-10-07 14:27:59.957000000" name="맨해튼" reg_date="2020-10-07 14:27:59.957000000"
+              simple_recipe="1. 버번 위스키 1.5oz
+2. 스윗 베르무트 3/4oz
+3. 앙고스투라 비터 1dash
+4. 체리 가니쉬"/>
+    <cocktail cocktail_no="2" base="RUM"
+              description="칵테일을 처음 접해보는 초심자, 여성들도 들어는 봤을 정도로 유명한 칵테일이다. 코코넛, 파인애플 맛을 위주로 달달함이 지배적이며, 끈적한 식감이 특징적이다. 조주기능사 레시피는 피나믹스를 사용하지만, 업장에서는 보통 생과일이나 통조림을 사용하기도 한다."
+              image_url="http://k.kakaocdn.net/dn/DIi7c/btqFujrTkjN/sx8fE7odsk2D58y60UyLE0/800x800.jpg"
+              mod_date="2020-10-07 14:31:32.154000000" name="피나콜라다" reg_date="2020-10-07 14:31:32.154000000"
+              simple_recipe="1. 라이트 럼 1.25oz
+2. 피나콜라다 믹스 2oz
+3. 파인애플 주스 2oz
+4. 파인애플 웻지&amp;체리 가니쉬"/>
+    <cocktail cocktail_no="3" base="VODKA"
+              description="러시아의 술, 무엇일까? 바로 떠오르는 그 것, 보드카다. 그 보드카에 블랙(사실 갈색이다)을 더한 블랙 러시안. 깔루아가 들어간다고 해서 깔루아 밀크를 생각하다가는 깜짝 놀랄 것이다. 강력한 알코올의 향과 그 속에서 터지는 달달한 커피의 맛. 상남자의 칵테일이다."
+              image_url="http://k.kakaocdn.net/dn/O0V0r/btqFrUfLMJp/dizWlpZL0zKJSwfsezKK21/800x800.jpg"
+              mod_date="2020-10-07 14:31:49.223000000" name="블랙 러시안" reg_date="2020-10-07 14:31:49.223000000"
+              simple_recipe="1. 보드카 1oz
+2. 깔루아 1/2oz"/>
+    <cocktail cocktail_no="4" base="TEQUILA"
+              description="데킬라의 고향, 멕시코의 석양을 떠올리게 하는 칵테일. 간단히 만들 수 있고, 알코올 향이 약해 얕보다가는 큰 코 다치는 칵테일이다."
+              image_url="http://k.kakaocdn.net/dn/OieSK/btqJhJh0lOn/it539qC9LujpY7iQ91s1dk/800x800.jpg"
+              mod_date="2020-10-07 14:32:07.249000000" name="데킬라 선라이즈" reg_date="2020-10-07 14:32:07.249000000"
+              simple_recipe="1. 데킬라 1.5oz
+2. 오렌지 주스 Fill
+3. 오렌지 웻지 가니쉬"/>
+    <cocktail cocktail_no="5" base="GIN"
+              description="칵테일의 왕, 남자의 술, 등등 다양한 별명을 가지고 있다. 하지만 유명하다고 맛있겠지 하며 시켜먹으면 큰 코 다친다. 강렬한 진의 향과 베르무트의 쌉싸름함만으로 만들어내는 섬세한 칵테일. 중급자 이상에게만 추천하자."
+              image_url="http://k.kakaocdn.net/dn/N8eEd/btqJesOlLNN/LbwrNIGoPpFuvRl1ZmAdTk/800x800.jpg"
+              mod_date="2020-10-07 14:32:35.363000000" name="드라이 마티니" reg_date="2020-10-07 14:32:35.363000000"
+              simple_recipe="1. 드라이 진 1.5oz
+2. 드라이 베르무트 0.5oz
+(비율은 바텐더마다 다를 수 있습니다.)"/>
+
+</dataset>
