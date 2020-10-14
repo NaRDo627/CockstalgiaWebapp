@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <member user_no="1" is_admin="false" kakao_bot_user_id="asdf" kakao_plus_friend_key="1234" mod_date="2020-10-14 17:11:10" name="박현국" reg_date="2020-10-14 17:11:09" />
+    <member user_no="2" is_admin="false" kakao_bot_user_id="asdq" kakao_plus_friend_key="1235" mod_date="2020-10-14 17:11:10" name="박현우" reg_date="2020-10-14 17:11:09" />
+    <member user_no="3" is_admin="false" kakao_bot_user_id="asdw" kakao_plus_friend_key="1236" mod_date="2020-10-14 17:11:10" name="박현준" reg_date="2020-10-14 17:11:09" />
+    <member user_no="4" is_admin="false" kakao_bot_user_id="asde" kakao_plus_friend_key="1237" mod_date="2020-10-14 17:11:10" name="박현극" reg_date="2020-10-14 17:11:09" />
+    <member user_no="5" is_admin="true" kakao_bot_user_id="asdr" kakao_plus_friend_key="1238" mod_date="2020-10-14 17:11:10" name="박현수" reg_date="2020-10-14 17:11:09" />
+</dataset>
