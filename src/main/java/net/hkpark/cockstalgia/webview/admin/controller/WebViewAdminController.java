@@ -26,17 +26,34 @@ public class WebViewAdminController {
     private final WebViewAdminService webViewAdminService;
     private final CocktailRepository cocktailRepository;
 
+    /**
+     * 관리자 페이지 메인
+     */
     @GetMapping(value = {"", "/"})
     public String index(Model model) {
         model.addAttribute("cocktailCount", cocktailRepository.count());
         return "admin/index";
     }
 
+    /**
+     * 칵테일 관리
+     */
     @GetMapping(value = {"/cocktail"})
     public String cocktail(Model model) {
         return "admin/cocktail";
     }
 
+    /**
+     * 회원 관리
+     */
+    @GetMapping(value = {"/member"})
+    public String member(Model model) {
+        return "admin/member";
+    }
+
+    /**
+     * 칵테일 베이스 리스트 조회 (/cocktail 페이지에서 사용)
+     */
     @GetMapping(value = {"/liquor-bases"})
     @ResponseBody
     public List<String> liquorBases() {

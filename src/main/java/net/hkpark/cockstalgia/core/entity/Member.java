@@ -1,5 +1,7 @@
 package net.hkpark.cockstalgia.core.entity;
 import lombok.*;
+import net.hkpark.cockstalgia.core.constant.LiquorType;
+import net.hkpark.cockstalgia.core.constant.MemberType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,6 +41,13 @@ public class Member {
     @Column(name = "kakao_plus_friend_key", unique = true)
     private String kakaoPlusFriendKey;
 
+    @Column(name = "member_type", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private MemberType memberType;
+
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+
     @Builder.Default
     @Column(name = "reg_date")
     private final LocalDateTime regDate = LocalDateTime.now();
@@ -46,7 +55,4 @@ public class Member {
     @Builder.Default
     @Column(name = "mod_date")
     private LocalDateTime modDate = LocalDateTime.now();
-
-    @Column(name = "is_admin")
-    private boolean isAdmin;
 }
