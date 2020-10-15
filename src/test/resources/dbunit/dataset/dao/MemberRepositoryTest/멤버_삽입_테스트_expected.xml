@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <member user_no="1" is_admin="false" kakao_bot_user_id="asdf" kakao_plus_friend_key="1234" name="박현국" />
+    <member user_no="2" is_admin="false" kakao_bot_user_id="asdq" kakao_plus_friend_key="1235" name="박현우" />
+    <member user_no="3" is_admin="false" kakao_bot_user_id="asdw" kakao_plus_friend_key="1236" name="박현준" />
+    <member user_no="4" is_admin="false" kakao_bot_user_id="asde" kakao_plus_friend_key="1237" name="박현극" />
+    <member user_no="5" is_admin="true" kakao_bot_user_id="asdr" kakao_plus_friend_key="1238"  name="박현수" />
+    <member user_no="6" is_admin="false" kakao_bot_user_id="asdfg" kakao_plus_friend_key="12345" name="사람이름" />
+</dataset>

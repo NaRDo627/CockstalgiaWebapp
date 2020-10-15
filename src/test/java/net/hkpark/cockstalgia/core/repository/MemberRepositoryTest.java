@@ -1,6 +1,11 @@
 package net.hkpark.cockstalgia.core.repository;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DbUnitConfiguration;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+import net.hkpark.cockstalgia.core.config.DbUnitConfig;
 import net.hkpark.cockstalgia.core.config.TransactionConfig;
 import net.hkpark.cockstalgia.core.entity.Member;
 import org.junit.jupiter.api.Disabled;
@@ -25,39 +30,38 @@ import javax.persistence.EntityManager;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
+@Import(DbUnitConfig.class)
 @DataJpaTest
 @ContextConfiguration
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-// TODO DBunit 적용
-//@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
-//        DirtiesContextTestExecutionListener.class,
-//        TransactionDbUnitTestExecutionListener.class })
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,
+        TransactionDbUnitTestExecutionListener.class })
+@DbUnitConfiguration(databaseConnection = "dbUnitDatabaseConnection")
 class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
     @Test
+    @DatabaseSetup("classpath:dbunit/dataset/dao/MemberRepositoryTest/멤버_삽입_테스트_setup.xml")
+    @ExpectedDatabase(value = "classpath:dbunit/dataset/dao/MemberRepositoryTest/멤버_삽입_테스트_expected.xml"
+            , assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void 멤버_삽입_테스트() {
-        // given
+        // given - DatabaseSetup
         Member newMember = Member.builder()
                 .name("사람이름")
-                .kakaoBotUserId("asdf")
-                .kakaoPlusFriendKey("1234")
+                .kakaoBotUserId("asdfg")
+                .kakaoPlusFriendKey("12345")
                 .build();
 
         // when
         Member savedMember = memberRepository.saveAndFlush(newMember);
 
 
-        // then
-        assertNotNull(savedMember.getUserNo());
-        assertEquals(savedMember.getName(), "사람이름");
-        assertEquals(savedMember.getKakaoBotUserId(), "asdf");
-        assertEquals(savedMember.getKakaoPlusFriendKey(), "1234");
-        assertEquals(savedMember.getRegDate(), newMember.getRegDate());
+        // then - ExpectedDatabase
     }
 
     @Test
+    @DatabaseSetup("classpath:dbunit/dataset/dao/MemberRepositoryTest/멤버_삽입_중복_테스트_setup.xml")
     public void 멤버_삽입_중복_테스트() {
         // given
         Member newMember = Member.builder()
@@ -66,15 +70,8 @@ class MemberRepositoryTest {
                 .kakaoPlusFriendKey("1234")
                 .build();
 
-        Member savedMember = memberRepository.saveAndFlush(newMember);
-        Member newMember2 = Member.builder()
-                .name("사람이름")
-                .kakaoBotUserId("asdf")
-                .kakaoPlusFriendKey("1234")
-                .build();
-
         // when
-        assertThrows(DataIntegrityViolationException.class, () -> memberRepository.save(newMember2));
+        assertThrows(DataIntegrityViolationException.class, () -> memberRepository.save(newMember));
 
         // then - throws
     }
