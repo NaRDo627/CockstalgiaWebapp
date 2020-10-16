@@ -41,9 +41,10 @@ public class Member {
     @Column(name = "kakao_plus_friend_key", unique = true)
     private String kakaoPlusFriendKey;
 
+    @Builder.Default
     @Column(name = "member_type", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private MemberType memberType;
+    private final MemberType memberType = MemberType.NEWBIE;
 
     @Column(name = "is_admin")
     private boolean isAdmin;
