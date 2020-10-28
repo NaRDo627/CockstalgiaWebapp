@@ -66,21 +66,16 @@ class MemberRepositoryTest {
                 .kakaoPlusFriendKey("1234")
                 .build();
 
-
-        // when
         Member savedMember = memberRepository.saveAndFlush(newMember);
         Member newMember2 = Member.builder()
                 .name("사람이름")
                 .kakaoBotUserId("asdf")
                 .kakaoPlusFriendKey("1234")
                 .build();
+
+        // when
         assertThrows(DataIntegrityViolationException.class, () -> memberRepository.save(newMember2));
 
-        // then
-        assertNotNull(savedMember.getUserNo());
-        assertEquals(savedMember.getName(), "사람이름");
-        assertEquals(savedMember.getKakaoBotUserId(), "asdf");
-        assertEquals(savedMember.getKakaoPlusFriendKey(), "1234");
-        assertEquals(savedMember.getRegDate(), newMember.getRegDate());
+        // then - throws
     }
 }

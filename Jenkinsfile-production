@@ -2,6 +2,7 @@ pipeline {
     environment {
         registry = "hygoogi/cockstalgia-webapp"
         registryCredential = 'docker-hub'
+        sshUrl = credentials('prod-server-ssh-url')
     }
     agent any
 
@@ -46,7 +47,11 @@ pipeline {
 
         stage('Deploy image') {
             steps{
-                sh '/var/lib/jenkins/workflow-libs/deploy-container.sh $registry:latest'
+                sshagent(credentials : ['ubuntu-dev-pc']) {
+                    sh 'ssh -o StrictHostKeyChecking=no $sshUrl uptime'
+                    sh 'ssh -v $sshUrl'
+                    sh 'ssh $sshUrl "~/deploy-container.sh $registry:latest"'
+                }
             }
         }
     }
