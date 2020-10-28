@@ -10,6 +10,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum LiquorType {
     WHISKEY("위스키"),
+    BRANDY("브랜디"),
     RUM("럼"),
     VODKA("보드카"),
     GIN("진"),
