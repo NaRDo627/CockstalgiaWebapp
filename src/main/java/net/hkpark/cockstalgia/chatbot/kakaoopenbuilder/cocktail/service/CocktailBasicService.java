@@ -77,7 +77,7 @@ public class CocktailBasicService {
             ComponentDto componentDto = ComponentDto.builder().simpleText(simpleTextDto).build();
             responseDto.getTemplate().getOutputs().add(componentDto);
         }
-        
+
         return responseDto;
     }
 }

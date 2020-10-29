@@ -22,7 +22,7 @@ public class ArgumentLoggerAspect {
 
         for (Object arg : args) {
             try {
-                log.debug(JsonUtil.convertJsonString(arg));
+                log.debug(JsonUtil.convertObjectToJsonString(arg));
             } catch (JsonProcessingException e) {
                 log.warn("JsonProcessing failed : print with toString() instead");
                 log.debug(arg.toString());
