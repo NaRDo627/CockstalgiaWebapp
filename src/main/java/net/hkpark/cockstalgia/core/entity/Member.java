@@ -44,7 +44,7 @@ public class Member {
     @Builder.Default
     @Column(name = "member_type", nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private final MemberType memberType = MemberType.NEWBIE;
+    private final MemberType memberType = MemberType.STANDBY;
 
     @Column(name = "is_admin")
     private boolean isAdmin;
