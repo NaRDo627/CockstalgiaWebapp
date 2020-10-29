@@ -1,6 +1,7 @@
 package net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.util;
 
 import lombok.NonNull;
+import net.hkpark.cockstalgia.core.exception.InvalidValueException;
 import net.hkpark.kakao.openbuilder.dto.response.*;
 
 import java.util.Arrays;
@@ -54,6 +55,25 @@ public class SkillResponseUtil {
         ComponentDto componentDto = ComponentDto.builder().basicCard(basicCard).build();
         SkillTemplateDto skillTemplateDto = SkillTemplateDto.builder().build();
         skillTemplateDto.getOutputs().add(componentDto);
+        return SkillResponseDto.builder().template(skillTemplateDto).build();
+    }
+
+    public static SkillResponseDto basicCardResponseDto(List<BasicCardDto> basicCards,
+                                                        ButtonDto... buttons) {
+        if (basicCards.size() == 0 || basicCards.size() > 3) {
+            throw new InvalidValueException("컴포넌트의 크기는 1 이상 3 이하이여야 합니다.");
+        }
+
+        for (ButtonDto button : buttons) {
+            basicCards.get(basicCards.size() - 1).getButtons().add(button);
+        }
+
+        SkillTemplateDto skillTemplateDto = SkillTemplateDto.builder().build();
+        for (BasicCardDto basicCard : basicCards) {
+            ComponentDto componentDto = ComponentDto.builder().basicCard(basicCard).build();
+            skillTemplateDto.getOutputs().add(componentDto);
+        }
+
         return SkillResponseDto.builder().template(skillTemplateDto).build();
     }
 
