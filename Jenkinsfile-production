@@ -47,11 +47,9 @@ pipeline {
 
         stage('Deploy image') {
             steps{
-                sshagent(credentials : ['ubuntu-dev-pc']) {
-                    sh 'ssh -o StrictHostKeyChecking=no $sshUrl uptime'
-                    sh 'ssh -v $sshUrl'
-                    sh 'ssh $sshUrl "~/deploy-container.sh $registry:latest"'
-                }
+                sh 'ssh -o StrictHostKeyChecking=no $sshUrl uptime'
+                sh 'ssh -v $sshUrl'
+                sh 'ssh $sshUrl "~/deploy-container.sh $registry:latest"'
             }
         }
     }

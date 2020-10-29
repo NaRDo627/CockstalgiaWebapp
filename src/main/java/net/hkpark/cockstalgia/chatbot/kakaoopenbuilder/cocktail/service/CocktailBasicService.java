@@ -13,10 +13,7 @@ import net.hkpark.cockstalgia.core.exception.InvalidValueException;
 import net.hkpark.cockstalgia.core.repository.CocktailRepository;
 import net.hkpark.kakao.openbuilder.dto.request.ActionDto;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
-import net.hkpark.kakao.openbuilder.dto.response.BasicCardDto;
-import net.hkpark.kakao.openbuilder.dto.response.ButtonDto;
-import net.hkpark.kakao.openbuilder.dto.response.QuickReplyDto;
-import net.hkpark.kakao.openbuilder.dto.response.SkillResponseDto;
+import net.hkpark.kakao.openbuilder.dto.response.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -62,14 +59,25 @@ public class CocktailBasicService {
         // if not exists, throw
         String cocktailName = actionDto.getParams().get("cocktail_name").toString();
         Cocktail cocktail = cocktailRepository.findByNameContaining(cocktailName).orElseThrow(EntityNotFoundException::new);
-        String simpleRecipe = cocktail.getSimpleRecipe() == null ? "" : cocktail.getSimpleRecipe();
-        String description = cocktail.getDescription() + "\n" + simpleRecipe;
+        String description = cocktail.getDescription();
 
         // return recipe card
         BasicCardDto basicCard = BasicCardUtil.getOne(cocktail.getName(), description, cocktail.getImageUrl());
         ButtonDto button = ButtonDto.builder().label("뒤로 가기")
                 .action("message").messageText(cocktail.getBase().getKoreanName() + " 칵테일 알아보기").build();
 
-        return SkillResponseUtil.basicCardResponseDto(basicCard, button);
+        SkillResponseDto responseDto = SkillResponseUtil.basicCardResponseDto(basicCard, button);
+
+        // 글자가 길 경우 분할 추가
+
+
+        // 레시피 따로 추가
+        if (! StringUtils.isEmpty(cocktail.getSimpleRecipe())) {
+            SimpleTextDto simpleTextDto = SimpleTextDto.builder().text(cocktail.getSimpleRecipe()).build();
+            ComponentDto componentDto = ComponentDto.builder().simpleText(simpleTextDto).build();
+            responseDto.getTemplate().getOutputs().add(componentDto);
+        }
+
+        return responseDto;
     }
 }
