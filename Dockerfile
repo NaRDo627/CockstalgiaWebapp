@@ -9,7 +9,8 @@ WORKDIR /home/gradle/project
 # Eat the expected build failure since no source code has been copied yet
 # RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
 COPY . /home/gradle/project
-RUN mkdir /home/gradle/mount/static/images
+RUN mkdir /home/gradle/mount
+
 #RUN chmod -R 755 /home/gradle/project
 
 RUN gradle clean bootJar

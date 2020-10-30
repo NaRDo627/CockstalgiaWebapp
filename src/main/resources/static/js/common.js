@@ -56,7 +56,7 @@ String.prototype.makeShort = function (maxLength) {
     return this.substring(0, maxLength) + "...";
 }
 
-const _request = function (url, method, data, successCallback, failureCallback) {
+const _request = function (url, method, data, successCallback, failureCallback, contentType) {
     const defaultFailureCallback = function (xhr, status, errorThrown) {
         if (status === "canceled")
             return;
@@ -68,12 +68,13 @@ const _request = function (url, method, data, successCallback, failureCallback) 
     };
 
     failureCallback = typeof failureCallback !== "undefined" ? failureCallback : defaultFailureCallback;
+    contentType = typeof contentType !== "undefined" ? contentType : "application/json";
 
     $.ajax({
         url: url,
         data: data,
         type: method,
-        contentType: "application/json",
+        contentType: contentType,
         dataType: "json"
     })
     .done(successCallback)
@@ -83,14 +84,14 @@ const _request = function (url, method, data, successCallback, failureCallback) 
     });
 }
 
-const getRequest = function (url, successCallback, failureCallback) {
-    return _request(url, "GET", null, successCallback, failureCallback);
+const getRequest = function (url, successCallback, failureCallback, contentType) {
+    return _request(url, "GET", null, successCallback, failureCallback, contentType);
 }
 
-const postRequest = function (url, data, successCallback, failureCallback) {
-    return _request(url, "POST", data, successCallback, failureCallback);
+const postRequest = function (url, data, successCallback, failureCallback, contentType) {
+    return _request(url, "POST", data, successCallback, failureCallback, contentType);
 }
 
-const putRequest = function (url, data, successCallback, failureCallback) {
-    return _request(url, "PUT", data, successCallback, failureCallback);
+const putRequest = function (url, data, successCallback, failureCallback, contentType) {
+    return _request(url, "PUT", data, successCallback, failureCallback, contentType);
 }

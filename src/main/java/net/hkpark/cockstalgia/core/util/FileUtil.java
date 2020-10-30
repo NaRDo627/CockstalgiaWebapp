@@ -28,7 +28,7 @@ public class FileUtil { // TODO File을 유틸리티 클래스로서 다루는�
     public static String saveMultiPartFile(MultipartFile mFile, String filePath) {
         try {
             makeAbsoluteDirectory(filePath);
-            String completePath = filePath + mFile.getOriginalFilename();
+            String completePath = filePath + mFile.getOriginalFilename(); // TODO 파일명 변경처리
             File saveFile = new File(completePath);
             mFile.transferTo(saveFile);
             return saveFile.getAbsolutePath();

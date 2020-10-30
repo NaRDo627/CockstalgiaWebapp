@@ -10,6 +10,7 @@ import net.hkpark.cockstalgia.core.repository.CocktailRepository;
 import net.hkpark.cockstalgia.core.service.CocktailDataService;
 import net.hkpark.cockstalgia.core.util.FileUtil;
 import net.hkpark.cockstalgia.webview.admin.service.WebViewAdminService;
+import net.hkpark.cockstalgia.webview.core.service.WebViewCoreService;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -49,7 +51,6 @@ public class WebViewAdminController {
     @PostMapping(value = {"/upload-cocktail"})
     @ResponseBody
     public ResultDto uploadImage(@RequestParam("cocktail-image") MultipartFile cocktailImageFile) {
-
-        return ResultDto.builder().build();
+        return webViewAdminService.saveMultipartFile(cocktailImageFile);
     }
 }
