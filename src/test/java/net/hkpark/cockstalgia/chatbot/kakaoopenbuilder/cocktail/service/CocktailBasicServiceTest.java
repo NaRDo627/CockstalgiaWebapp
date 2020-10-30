@@ -70,7 +70,7 @@ class CocktailBasicServiceTest {
         assertEquals(outputs.get(0).getBasicCard().getDescription(), "맨해튼설명");
         assertEquals(outputs.get(0).getBasicCard().getThumbnail().getImageUrl(), "http://manhatten.imageurl.com");
 
-        assertNotNull(outputs.get(1).getSimpleText());
-        assertEquals(outputs.get(1).getSimpleText().getText(), "맨해튼레시피");
+//        assertNotNull(outputs.get(1).getSimpleText());
+//        assertEquals(outputs.get(1).getSimpleText().getText(), "맨해튼레시피");
     }
 }
