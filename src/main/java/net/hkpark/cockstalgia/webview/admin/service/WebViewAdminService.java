@@ -1,6 +1,7 @@
 package net.hkpark.cockstalgia.webview.admin.service;
 
 import net.hkpark.cockstalgia.core.constant.LiquorType;
+import net.hkpark.cockstalgia.core.dto.ResultDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

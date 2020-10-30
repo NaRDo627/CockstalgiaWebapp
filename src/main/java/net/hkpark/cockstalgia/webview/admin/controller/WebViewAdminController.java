@@ -8,12 +8,15 @@ import net.hkpark.cockstalgia.core.annotation.PrintArguments;
 import net.hkpark.cockstalgia.core.dto.ResultDto;
 import net.hkpark.cockstalgia.core.repository.CocktailRepository;
 import net.hkpark.cockstalgia.core.service.CocktailDataService;
+import net.hkpark.cockstalgia.core.util.FileUtil;
 import net.hkpark.cockstalgia.webview.admin.service.WebViewAdminService;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -41,5 +44,12 @@ public class WebViewAdminController {
     @ResponseBody
     public List<String> liquorBases() {
         return webViewAdminService.getLiquorBases();
+    }
+
+    @PostMapping(value = {"/upload-cocktail"})
+    @ResponseBody
+    public ResultDto uploadImage(@RequestParam("cocktail-image") MultipartFile cocktailImageFile) {
+
+        return ResultDto.builder().build();
     }
 }
