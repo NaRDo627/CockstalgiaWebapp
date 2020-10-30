@@ -1,4 +1,4 @@
-package net.hkpark.cockstalgia;
+package net.hkpark;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
