@@ -28,7 +28,8 @@ public class FileUtil { // TODO File을 유틸리티 클래스로서 다루는�
     public static String saveMultiPartFile(MultipartFile mFile, String filePath) {
         try {
             makeAbsoluteDirectory(filePath);
-            String completePath = filePath + mFile.getOriginalFilename(); // TODO 파일명 변경처리
+            String generatedFileName = generateFileName(mFile);
+            String completePath = filePath + generatedFileName;
             File saveFile = new File(completePath);
             mFile.transferTo(saveFile);
             return saveFile.getAbsolutePath();
@@ -60,5 +61,21 @@ public class FileUtil { // TODO File을 유틸리티 클래스로서 다루는�
             String msg = "디렉토리 생성 중 에러 발생";
             throw new IllegalStateException(msg);
         }
+    }
+
+    // 확장자 추출
+    private static String getExtension(String originalFileName) {
+        int lastIndex = originalFileName.lastIndexOf(".");
+        if (lastIndex == -1) {
+            return "";
+        }
+        return originalFileName.substring(lastIndex);
+    }
+
+    private static String generateFileName(MultipartFile mFile) {
+        String currentTimeStamp = String.valueOf(System.currentTimeMillis());
+        String originalFileName = mFile.getOriginalFilename() == null ? "" : mFile.getOriginalFilename();
+        String extension = getExtension(originalFileName);
+        return currentTimeStamp + extension;
     }
 }

@@ -13,14 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileUtilTest {
 
-    @AfterEach
-    public void cleanUp() {
-        File testFile = new File("./hello.txt");
-        if (testFile.exists()) {
-            testFile.delete();
-        }
-    }
-
     @Test
     public void 파일_저장_테스트() {
         // given
@@ -32,10 +24,13 @@ class FileUtilTest {
         );
 
         // when
-        FileUtil.saveMultiPartFile(mockMultipartFile, "./");
+        String filePath = FileUtil.saveMultiPartFile(mockMultipartFile, "./");
 
         // then
-        File testFile = new File("./hello.txt");
+        File testFile = new File(filePath);
         assertTrue(testFile.exists());
+
+        // teardown
+        testFile.delete();
     }
 }
