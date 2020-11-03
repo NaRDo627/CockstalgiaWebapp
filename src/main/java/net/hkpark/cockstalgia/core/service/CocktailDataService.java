@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -53,5 +54,6 @@ public class CocktailDataService {
         Cocktail destCocktail = cocktailRepository.findById(cocktailDto.getCocktailNo()).orElseThrow(EntityNotFoundException::new);
         Cocktail sourceCocktail = ObjectMapper.mapObject(cocktailDto, Cocktail.class);
         BeanUtils.copyProperties(sourceCocktail, destCocktail, "id", "regDate");
+        destCocktail.setModDate(LocalDateTime.now());
     }
 }
