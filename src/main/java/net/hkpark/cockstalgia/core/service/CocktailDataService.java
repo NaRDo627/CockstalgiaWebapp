@@ -52,6 +52,6 @@ public class CocktailDataService {
         RequestValidator.requireNonNull(cocktailDto.getCocktailNo());
         Cocktail destCocktail = cocktailRepository.findById(cocktailDto.getCocktailNo()).orElseThrow(EntityNotFoundException::new);
         Cocktail sourceCocktail = ObjectMapper.mapObject(cocktailDto, Cocktail.class);
-        BeanUtils.copyProperties(sourceCocktail, destCocktail, "id", "modDate");
+        BeanUtils.copyProperties(sourceCocktail, destCocktail, "id", "regDate");
     }
 }
