@@ -1,4 +1,4 @@
-package net.hkpark.cockstalgia.core.config;
+package net.hkpark.config;
 
 import net.hkpark.cockstalgia.core.interceptor.RequestLoggerInterceptor;
 import org.springframework.context.annotation.Configuration;

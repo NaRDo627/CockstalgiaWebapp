@@ -37,6 +37,7 @@
                             data-toggle="modal" data-target="#cocktailModal" style="display: inline-block!important;">
                         <i class="fas fa-download fa-sm text-white-50"></i> 칵테일 추가
                     </button>
+
                 </div>
 
                 <!-- Content Row -->
@@ -146,9 +147,17 @@
                     </div>
                     <div class="form-group">
                         <label for="image-url" class="col-form-label">이미지 Url</label>
-                        <input type="url" class="form-control" id="image-url" name="imageUrl" required>
-                        <div class="invalid-feedback">
-                            유효하지 않은 이미지 url입니다.
+                        <div class="input-group">
+                            <input type="url" class="form-control bg-light small" id="image-url" name="imageUrl"
+                                   required>
+                            <div class="invalid-feedback">
+                                유효하지 않은 이미지 url입니다.
+                            </div>
+                            <div class="input-group-append" data-toggle="tooltip" data-placement="top" title="이미지 업로드">
+                                <button class="btn btn-primary" type="button" id="img-upload">
+                                    <i class="fas fa-upload fa-sm"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -166,6 +175,10 @@
         </div>
     </div>
 </div>
+
+<form id="image-form" method="post" enctype="multipart/form-data">
+    <input type='file' id="img-upload-actual" hidden/>
+</form>
 
 <th:block th:replace="fragment/common-script"/>
 
@@ -221,9 +234,35 @@
                     renderItems();
                 });
         }
+
+        const uploadImg = function () {
+            const formData = new FormData($("#image-form")[0]);
+            formData.append("cocktail-image", $("#img-upload-actual")[0].files[0]);
+            $.ajax({
+                url: "/admin/upload-cocktail",
+                data: formData,
+                type: "POST",
+                processData: false,
+                contentType: false,
+                dataType: "json"
+            })
+            .done(function (json) {
+                $("#image-url").val(json.data.url);
+            })
+            .fail(function (xhr, status, errorThrown) {
+                if (status === "canceled")
+                    return;
+
+                alert("처리 중 오류가 발생하였습니다.")
+                console.warn(xhr)
+                console.warn(status)
+                console.warn(errorThrown)
+            })
+        }
         // ######################### 함수 표현 끝 ############################
 
         // ######################### 초기 실행 시작 ############################
+        $('[data-toggle="tooltip"]').tooltip();
         renderItems();
         getRequest("/admin/liquor-bases", function (array) {
             $.each(array, function (idx, item) {
@@ -275,6 +314,18 @@
                 $("#base-liquor").val(cocktail.base);
                 $('#cocktailModal').modal('show')
             });
+        });
+
+        $("#img-upload").on("click", function (e) {
+            $("#img-upload-actual").click();
+        });
+
+        $("#img-upload-actual").on("change", function (e) {
+            if ($(this).val() === "") {
+                return false;
+            }
+
+            uploadImg();
         });
         // ######################### 이벤트 핸들러 등록 끝 ############################
     });

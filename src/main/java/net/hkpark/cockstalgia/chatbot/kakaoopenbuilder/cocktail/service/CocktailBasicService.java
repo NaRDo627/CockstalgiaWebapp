@@ -63,18 +63,13 @@ public class CocktailBasicService {
 
         // return recipe card
         BasicCardDto basicCard = BasicCardUtil.getOne(cocktail.getName(), description, cocktail.getImageUrl());
-        ButtonDto button = ButtonDto.builder().label("뒤로 가기")
-                .action("message").messageText(cocktail.getBase().getKoreanName() + " 칵테일 알아보기").build();
-
-        SkillResponseDto responseDto = SkillResponseUtil.basicCardResponseDto(basicCard, button);
-
-        // 글자가 길 경우 분할 추가
-
+        SkillResponseDto responseDto = SkillResponseUtil.basicCardResponseDto(basicCard);
 
         // 레시피 따로 추가
         if (! StringUtils.isEmpty(cocktail.getSimpleRecipe())) {
-            SimpleTextDto simpleTextDto = SimpleTextDto.builder().text(cocktail.getSimpleRecipe()).build();
-            ComponentDto componentDto = ComponentDto.builder().simpleText(simpleTextDto).build();
+            basicCard = BasicCardUtil.getOne("레시피", cocktail.getSimpleRecipe(), null);
+
+            ComponentDto componentDto = ComponentDto.builder().basicCard(basicCard).build();
             responseDto.getTemplate().getOutputs().add(componentDto);
         }
 

@@ -5,28 +5,21 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
-import net.hkpark.cockstalgia.core.config.DbUnitConfig;
-import net.hkpark.cockstalgia.core.config.TransactionConfig;
+import net.hkpark.config.DbUnitConfig;
+import net.hkpark.config.TransactionConfig;
 import net.hkpark.cockstalgia.core.constant.MemberType;
+
 import net.hkpark.cockstalgia.core.entity.Member;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 

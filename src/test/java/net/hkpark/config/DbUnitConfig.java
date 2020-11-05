@@ -1,4 +1,4 @@
-package net.hkpark.cockstalgia.core.config;
+package net.hkpark.config;
 
 import com.github.springtestdbunit.bean.DatabaseConfigBean;
 import com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean;
