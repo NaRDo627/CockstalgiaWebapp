@@ -14,11 +14,13 @@ import net.hkpark.cockstalgia.webview.core.service.WebViewCoreService;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,22 @@ public class WebViewAdminController {
     public String index(Model model) {
         model.addAttribute("cocktailCount", cocktailRepository.count());
         return "admin/index";
+    }
+
+    /**
+     * 칵테일 관리
+     */
+    @GetMapping(value = {"/login"})
+    public String login(HttpServletRequest request, Authentication authentication, Model model) {
+        if (authentication != null && authentication.isAuthenticated()){
+//            if (SecurityUtil.hasRole(authentication.getAuthorities(), "ROLE_ADMIN"))
+//                return "redirect:/admin";
+            return "redirect:/admin";
+        }
+
+        String referer = request.getHeader("Referer");
+        request.getSession().setAttribute("prevPage", referer);
+        return "admin/login";
     }
 
     /**

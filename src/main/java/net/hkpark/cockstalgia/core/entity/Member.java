@@ -35,6 +35,12 @@ public class Member {
 //    @Column(name = "phone")
 //    private String phone;
 
+    @Column(name = "birth", nullable = false)
+    private LocalDateTime birth;
+
+    @Column(name = "member_identity_key", nullable = false, unique = true)
+    private String memberIdentityKey;
+
     @Column(name = "kakao_bot_user_id", unique = true)
     private String kakaoBotUserId;
 
@@ -48,6 +54,9 @@ public class Member {
 
     @Column(name = "is_admin")
     private boolean isAdmin;
+
+    @Column(name = "is_active")
+    private boolean isActive;
 
     @Builder.Default
     @Column(name = "reg_date")

@@ -21,6 +21,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
@@ -43,6 +45,8 @@ class MemberRepositoryTest {
         // given - DatabaseSetup
         Member newMember = Member.builder()
                 .name("사람이름")
+                .birth(LocalDateTime.now())
+                .memberIdentityKey("test")
                 .kakaoBotUserId("asdfg")
                 .kakaoPlusFriendKey("12345")
                 .build();
@@ -60,6 +64,8 @@ class MemberRepositoryTest {
         // given
         Member newMember = Member.builder()
                 .name("사람이름")
+                .birth(LocalDateTime.now())
+                .memberIdentityKey("test")
                 .kakaoBotUserId("asdf")
                 .kakaoPlusFriendKey("1234")
                 .build();
