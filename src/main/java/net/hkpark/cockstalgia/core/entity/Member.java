@@ -35,9 +35,6 @@ public class Member {
 //    @Column(name = "phone")
 //    private String phone;
 
-    @Column(name = "birth", nullable = false)
-    private LocalDateTime birth;
-
     @Column(name = "member_identity_key", nullable = false, unique = true)
     private String memberIdentityKey;
 

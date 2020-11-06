@@ -1,6 +1,5 @@
 package net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.cocktail.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.hkpark.cockstalgia.core.constant.LiquorType;
 import net.hkpark.cockstalgia.core.constant.TestJsonString;
 import net.hkpark.cockstalgia.core.entity.Cocktail;
@@ -9,16 +8,12 @@ import net.hkpark.cockstalgia.core.util.JsonUtil;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
 import net.hkpark.kakao.openbuilder.dto.response.ComponentDto;
 import net.hkpark.kakao.openbuilder.dto.response.SkillResponseDto;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +25,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CocktailBasicServiceTest {
+class ChatbotCocktailServiceTest {
 
     @InjectMocks
-    private CocktailBasicService cocktailBasicService;
+    private ChatbotCocktailService chatbotCocktailService;
 
     @Mock
     private CocktailRepository cocktailRepository;
@@ -60,7 +55,7 @@ class CocktailBasicServiceTest {
         when(cocktailRepository.findByNameContaining(eq("맨해튼"))).thenReturn(Optional.of(cocktail));
 
         // when
-        SkillResponseDto skillResponseDto = cocktailBasicService.getRecipe(skillRequestDto);
+        SkillResponseDto skillResponseDto = chatbotCocktailService.getRecipe(skillRequestDto);
 
         // then
         List<ComponentDto> outputs = skillResponseDto.getTemplate().getOutputs();

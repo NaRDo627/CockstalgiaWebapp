@@ -3,17 +3,9 @@ package net.hkpark.cockstalgia.webview.admin.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.member.service.MemberService;
-import net.hkpark.cockstalgia.core.annotation.PrintArguments;
 import net.hkpark.cockstalgia.core.dto.ResultDto;
 import net.hkpark.cockstalgia.core.repository.CocktailRepository;
-import net.hkpark.cockstalgia.core.service.CocktailDataService;
-import net.hkpark.cockstalgia.core.util.FileUtil;
 import net.hkpark.cockstalgia.webview.admin.service.WebViewAdminService;
-import net.hkpark.cockstalgia.webview.core.service.WebViewCoreService;
-import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -43,7 +33,7 @@ public class WebViewAdminController {
     }
 
     /**
-     * 칵테일 관리
+     * 관리자 페이지 로그인
      */
     @GetMapping(value = {"/login"})
     public String login(HttpServletRequest request, Authentication authentication, Model model) {

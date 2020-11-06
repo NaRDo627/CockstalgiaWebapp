@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CocktailBasicService {
+public class ChatbotCocktailService {
     private final CocktailRepository cocktailRepository;
 
     public SkillResponseDto getBaseRecipeLists(SkillRequestDto skillRequestDto) {

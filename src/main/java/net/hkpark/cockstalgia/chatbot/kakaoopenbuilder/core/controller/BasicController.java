@@ -3,7 +3,7 @@ package net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.core.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.member.service.MemberService;
+import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.member.service.ChatbotMemberService;
 import net.hkpark.cockstalgia.core.annotation.PrintArguments;
 import net.hkpark.cockstalgia.core.dto.ResultDto;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
@@ -17,7 +17,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/api/chatbot")
 public class BasicController {
-    private final MemberService memberService;
+    private final ChatbotMemberService chatbotMemberService;
 
     @PrintArguments
     @PostMapping(value = "/datetime/v1")

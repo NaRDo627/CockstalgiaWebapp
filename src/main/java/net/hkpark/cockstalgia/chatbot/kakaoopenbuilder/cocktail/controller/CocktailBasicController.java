@@ -3,7 +3,7 @@ package net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.cocktail.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.cocktail.service.CocktailBasicService;
+import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.cocktail.service.ChatbotCocktailService;
 import net.hkpark.cockstalgia.core.annotation.PrintArguments;
 import net.hkpark.cockstalgia.core.dto.ResultDto;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
@@ -18,7 +18,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @RequestMapping("/api/chatbot/cocktail")
 public class CocktailBasicController {
-    private final CocktailBasicService cocktailBasicService;
+    private final ChatbotCocktailService chatbotCocktailService;
 
     @PrintArguments
     @PostMapping(value = "/description/v1")
@@ -28,7 +28,7 @@ public class CocktailBasicController {
 
     @PostMapping(value = "/base/v1")
     public ResponseEntity<?> base(@RequestBody SkillRequestDto skillRequestDto) {
-        SkillResponseDto responseDto = cocktailBasicService.getBaseRecipeLists(skillRequestDto);
+        SkillResponseDto responseDto = chatbotCocktailService.getBaseRecipeLists(skillRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 }

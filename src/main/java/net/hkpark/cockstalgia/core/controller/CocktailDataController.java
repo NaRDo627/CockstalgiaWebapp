@@ -1,15 +1,9 @@
 package net.hkpark.cockstalgia.core.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.hkpark.cockstalgia.core.annotation.PrintArguments;
 import net.hkpark.cockstalgia.core.dto.CocktailDto;
-import net.hkpark.cockstalgia.core.dto.MemberDto;
 import net.hkpark.cockstalgia.core.dto.ResultDto;
-import net.hkpark.cockstalgia.core.entity.Cocktail;
-import net.hkpark.cockstalgia.core.repository.CocktailRepository;
-import net.hkpark.cockstalgia.core.repository.MemberRepository;
-import net.hkpark.cockstalgia.core.service.CocktailDataService;
-import net.hkpark.cockstalgia.core.util.ObjectMapper;
+import net.hkpark.cockstalgia.core.service.CocktailEntityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,29 +14,29 @@ import java.util.List;
 @RequestMapping(value = "/data/cocktail/")
 @RequiredArgsConstructor
 public class CocktailDataController {
-    private final CocktailDataService cocktailDataService;
+    private final CocktailEntityService cocktailEntityService;
 
     @GetMapping(value = {"v1"})
     public ResponseEntity<ResultDto> cocktailGet() {
-        List<CocktailDto> cocktails = cocktailDataService.getAllCocktailList();
+        List<CocktailDto> cocktails = cocktailEntityService.getAllCocktailList();
         return ResponseEntity.ok(ResultDto.builder().message("OK").data(cocktails).build());
     }
 
     @GetMapping(value = {"{cocktailNo}/v1"})
     public ResponseEntity<ResultDto> cocktailGetOne(@PathVariable("cocktailNo") Integer cocktailNo) {
-        CocktailDto cocktail = cocktailDataService.getCocktailById(cocktailNo);
+        CocktailDto cocktail = cocktailEntityService.getCocktailById(cocktailNo);
         return ResponseEntity.ok(ResultDto.builder().message("OK").data(cocktail).build());
     }
 
     @PostMapping(value = {"v1"})
     public ResponseEntity<ResultDto> cocktailPost(@RequestBody CocktailDto cocktailDto) {
-        cocktailDataService.saveCocktail(cocktailDto);
+        cocktailEntityService.saveCocktail(cocktailDto);
         return ResponseEntity.ok(ResultDto.builder().message("OK").build());
     }
 
     @PutMapping(value = {"v1"})
     public ResponseEntity<ResultDto> cocktailPut(@RequestBody CocktailDto cocktailDto) {
-        cocktailDataService.updateCocktail(cocktailDto);
+        cocktailEntityService.updateCocktail(cocktailDto);
         return ResponseEntity.ok(ResultDto.builder().message("OK").build());
     }
 }

@@ -3,7 +3,7 @@ package net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.cocktail.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.cocktail.service.CocktailBasicService;
+import net.hkpark.cockstalgia.chatbot.kakaoopenbuilder.cocktail.service.ChatbotCocktailService;
 import net.hkpark.cockstalgia.core.annotation.PrintArguments;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
 import net.hkpark.kakao.openbuilder.dto.response.SkillResponseDto;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/chatbot/cocktail")
 public class CocktailRecipeController {
-    private final CocktailBasicService cocktailBasicService;
+    private final ChatbotCocktailService chatbotCocktailService;
 
     @PrintArguments
     @PostMapping(value = "/recipe/v1")
     public ResponseEntity<?> base(@RequestBody SkillRequestDto skillRequestDto) {
-        SkillResponseDto responseDto = cocktailBasicService.getRecipe(skillRequestDto);
+        SkillResponseDto responseDto = chatbotCocktailService.getRecipe(skillRequestDto);
         return ResponseEntity.ok(responseDto);
     }
 }

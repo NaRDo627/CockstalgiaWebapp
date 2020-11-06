@@ -45,7 +45,6 @@ class MemberRepositoryTest {
         // given - DatabaseSetup
         Member newMember = Member.builder()
                 .name("사람이름")
-                .birth(LocalDateTime.now())
                 .memberIdentityKey("test")
                 .kakaoBotUserId("asdfg")
                 .kakaoPlusFriendKey("12345")
@@ -64,7 +63,6 @@ class MemberRepositoryTest {
         // given
         Member newMember = Member.builder()
                 .name("사람이름")
-                .birth(LocalDateTime.now())
                 .memberIdentityKey("test")
                 .kakaoBotUserId("asdf")
                 .kakaoPlusFriendKey("1234")

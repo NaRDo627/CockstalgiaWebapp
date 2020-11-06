@@ -9,6 +9,7 @@ import net.hkpark.cockstalgia.core.constant.ErrorMessage;
 import net.hkpark.cockstalgia.core.entity.Member;
 import net.hkpark.cockstalgia.core.exception.InvalidValueException;
 import net.hkpark.cockstalgia.core.repository.MemberRepository;
+import net.hkpark.cockstalgia.core.service.MemberEntityService;
 import net.hkpark.kakao.openbuilder.dto.request.ActionDto;
 import net.hkpark.kakao.openbuilder.dto.request.SkillRequestDto;
 import net.hkpark.kakao.openbuilder.dto.request.UserDto;
@@ -22,8 +23,8 @@ import org.springframework.util.StringUtils;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MemberService {
-    private final MemberRepository memberRepository;
+public class ChatbotMemberService {
+    private final MemberEntityService memberEntityService;
 
     public SkillResponseDto confirmPlusFriend(SkillRequestDto skillRequestDto) {
         if (isPlusFriend(skillRequestDto)) {
@@ -43,6 +44,7 @@ public class MemberService {
             throw new InvalidValueException(ErrorMessage.REQUEST_BAD_REQUEST);
         }
         String memberName = actionDto.getParams().get("person_name").toString();
+        // TODO 날짜 데이터 추가 입력 필요!!!
 
         Member newMember = Member.builder()
                 .name(memberName)
@@ -50,28 +52,9 @@ public class MemberService {
                 .kakaoPlusFriendKey(kakaoPlusFriendKey)
                 .build();
 
-        try {
-            memberRepository.save(newMember);
-        } catch (DataIntegrityViolationException e) { // 이 경우 중복 데이터일 가능성이 높다.
-            String msg = ErrorMessage.DB_INSERT_FAILURE_ALREADY_EXISTS;
-            log.error(msg, "member", e);
-            throw new MemberAlreadyExistsException(e);
-        }
+        memberEntityService.saveMember(newMember);
 
         return SkillResponseUtil.simpleTextResponseDto("등록되었습니다.");
-    }
-
-    @Transactional
-    public SkillResponseDto registerAdmin(SkillRequestDto skillRequestDto) {
-        UserDto userDto = skillRequestDto.getUserRequest().getUser();
-        String kakaoBotUserId = userDto.getId();
-
-        Member member = memberRepository.findByKakaoBotUserId(kakaoBotUserId).orElseThrow(MemberNotFoundException::new);
-        if (member.isAdmin()) {
-            return SkillResponseUtil.simpleTextResponseDto("신청되었습니다.");
-        }
-
-        return SkillResponseUtil.simpleTextResponseDto("승인 대기중입니다.");
     }
 
     private boolean isPlusFriend(SkillRequestDto skillRequestDto) {

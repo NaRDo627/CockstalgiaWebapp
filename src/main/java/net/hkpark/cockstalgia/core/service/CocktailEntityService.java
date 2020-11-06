@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CocktailDataService {
+public class CocktailEntityService {
     private final CocktailRepository cocktailRepository;
 
     public List<CocktailDto> getAllCocktailList() {

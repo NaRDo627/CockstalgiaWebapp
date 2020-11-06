@@ -25,7 +25,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CocktailValidationService {
+public class ChatbotCocktailValidationService {
     private final CocktailRepository cocktailRepository;
 
     public ValidationResponseDto validate(ValidationRequestDto requestDto) {
