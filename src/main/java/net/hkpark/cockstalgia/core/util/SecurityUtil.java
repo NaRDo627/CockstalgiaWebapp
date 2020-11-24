@@ -1,6 +1,7 @@
 package net.hkpark.cockstalgia.core.util;
 
 import lombok.extern.slf4j.Slf4j;
+import net.hkpark.cockstalgia.core.vo.MemberIdentityKeyBaseVo;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
@@ -62,5 +63,9 @@ public class  SecurityUtil {
         //System.out.println(new String(decode));
 
         return decode;
+    }
+
+    public static String encodeUserKey(MemberIdentityKeyBaseVo memberIdentityKeyBaseVo) {
+        return md5(memberIdentityKeyBaseVo.getRealname() + memberIdentityKeyBaseVo.getBirthday());
     }
 }

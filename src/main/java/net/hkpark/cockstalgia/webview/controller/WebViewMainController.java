@@ -25,7 +25,7 @@ public class WebViewMainController {
      */
     @GetMapping(value = {"/register"})
     public String register(HttpSession session) {
-        if (session.getAttribute("memberIdentityKeyBaseVo") == null) {
+        if (session.getAttribute("needMoreInfo") == null) {
             throw new BusinessException("exit");
         }
 

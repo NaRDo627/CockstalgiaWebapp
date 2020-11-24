@@ -19,11 +19,11 @@ public class LogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
                                 HttpServletResponse response,
                                 Authentication authentication)
             throws ServletException, IOException {
-        log.info(String.format("id : \"%s\" logged out successfully", authentication.getName()));
+//        log.info(String.format("id : \"%s\" logged out successfully", authentication.getName()));
 
-        HttpSession session = request.getSession();
-        session.removeAttribute("bankUser");
-        log.info(String.format("Session info was removed for id : \"%s\"", authentication.getName()));
+//        HttpSession session = request.getSession();
+//        session.removeAttribute("bankUser");
+//        log.info(String.format("Session info was removed for id : \"%s\"", authentication.getName()));
 
         super.onLogoutSuccess(request, response, authentication);
     }

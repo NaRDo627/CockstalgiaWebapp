@@ -26,41 +26,5 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/oauth2")
 public class Oauth2Controller {
-    private final Oauth2Service oauth2Service;
 
-    /**
-     * 카카오 oauth2 엔드포인트
-     */
-    @GetMapping(value = {"/kakao"})
-    public String oauth2Kakao(Model model) {
-        return "redirect:" + oauth2Service.getKakaoLoginRedirectUrl();
-    }
-
-    /**
-     * 카카오 oauth2 콜백전용
-     */
-    @PrintArguments
-    @GetMapping(value = {"/kakao/callback"})
-    public String oauth2KakaoCallback(@RequestParam(value = "code", required = false) String code,
-                                      @RequestParam(value = "error", required = false) String error,
-                                      HttpSession session) {
-        if (! StringUtils.isEmpty(error)) {
-            return "redirect:/admin/login";
-        }
-
-        throwIfValueIsEmpty(code);
-        MemberIdentityKeyBaseVo baseVo = oauth2Service.getMemberIdentityKeyBaseVoFromKakao(code);
-        if (StringUtils.isEmpty(baseVo.getRealname()) || StringUtils.isEmpty(baseVo.getBirthday())) {
-            session.setAttribute("memberIdentityKeyBaseVo", baseVo);
-            return "redirect:/register";
-        }
-
-        return "redirect:/admin";
-    }
-
-    private void throwIfValueIsEmpty(Object value) {
-        if (StringUtils.isEmpty(value)) {
-            throw new InvalidValueException();
-        }
-    }
 }

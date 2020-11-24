@@ -17,7 +17,7 @@ public class JsonUtil {
         return MAPPER.readValue(jsonString, classType);
     }
 
-    public static <T> T convertMapToObjectClass(Map<String, Object> jsonMap, Class<T> classType) throws IOException {
+    public static <T> T convertMapToObjectClass(Map<String, Object> jsonMap, Class<T> classType) {
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return MAPPER.convertValue(jsonMap, classType);
     }
