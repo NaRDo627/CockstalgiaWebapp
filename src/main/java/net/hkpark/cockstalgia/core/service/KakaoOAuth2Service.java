@@ -25,28 +25,26 @@ public class KakaoOAuth2Service extends OAuth2Service {
     public MemberIdentityKeyBaseVo getKeyBaseVoFromAttributes(Map<String, Object> userAttributes) {
         KakaoUserInfoDto userInfoDto = JsonUtil.convertMapToObjectClass(userAttributes, KakaoUserInfoDto.class);
         KakaoAccountDto kakaoAccountDto = userInfoDto.getKakaoAccount();
-        Map<String, Object> properties = userInfoDto.getProperties();
-        String realname = (String)properties.get("realname");
         String birthday = kakaoAccountDto.getBirthday();
-        return MemberIdentityKeyBaseVo.builder().realname(realname).birthday(birthday).build();
+        return MemberIdentityKeyBaseVo.builder().realname(null).birthday(birthday).build();
     }
 
     @Override
     public String getUserKeyFromAttributes(Map<String, Object> userAttributes) {
-        MemberIdentityKeyBaseVo memberIdentityKeyBaseVo = getKeyBaseVoFromAttributes(userAttributes);
-        return SecurityUtil.encodeUserKey(memberIdentityKeyBaseVo);
+        KakaoUserInfoDto userInfoDto = JsonUtil.convertMapToObjectClass(userAttributes, KakaoUserInfoDto.class);
+        Map<String, Object> properties = userInfoDto.getProperties();
+        return (String)properties.get("memberIdentityKey");
     }
 
     @Override
     public boolean isNeedMoreInformation(Map<String, Object> userAttributes) {
-        String realname = (String)((Map<?, ?>)userAttributes.get("properties")).get("realname");
-        return StringUtils.isEmpty(realname);
+        return StringUtils.isEmpty(getUserKeyFromAttributes(userAttributes));
     }
 
     @Override
     public void saveBaseVoToAuthServer(MemberIdentityKeyBaseVo baseVo, OAuth2AuthenticationToken authentication) {
         Map<String, Object> properties = new HashMap<>();
-        properties.put("realname", baseVo.getRealname());
+        properties.put("memberIdentityKey", SecurityUtil.encodeUserKey(baseVo));
         kakaoDeveloperApiService.updateProperties(properties, OAuth2Util.getAccessTokenString(authentication));
     }
 }

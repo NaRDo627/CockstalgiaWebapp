@@ -22,3 +22,6 @@ INSERT INTO cocktail (cocktail_no, base, description, image_url, mod_date, name,
 3. 설탕 1 tsp 
 4. 소다수 Fill
 레몬&체리 가니쉬');
+
+-- INSERT INTO member (user_no, is_active, is_admin, kakao_bot_user_id, kakao_plus_friend_key, member_identity_key, member_type, mod_date, name, reg_date) VALUES
+-- (1, true, true, null, null, '9b145f50679c6ea11a700125bb9ea82a', 'STANDBY', '2020-11-25 12:46:49.038', '박현국', '2020-11-25 12:46:49.038');

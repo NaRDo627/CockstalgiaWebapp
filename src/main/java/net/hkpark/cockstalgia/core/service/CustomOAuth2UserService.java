@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.hkpark.cockstalgia.core.entity.Member;
 import net.hkpark.cockstalgia.core.repository.MemberRepository;
 import net.hkpark.cockstalgia.core.security.SocialType;
+import net.hkpark.cockstalgia.core.util.SecurityUtil;
 import net.hkpark.cockstalgia.core.vo.MemberIdentityKeyBaseVo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +24,7 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final OAuth2ServiceFactory oauth2ServiceFactory;
+    private final MemberEntityService memberEntityService;
     private final MemberRepository memberRepository;
 
     @Override
@@ -42,15 +44,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         String userKey = oAuth2Service.getUserKeyFromAttributes(userAttributes);
-        Optional<Member> optionalMember = memberRepository.findByMemberIdentityKeyAndIsActive(userKey, true);
+        String userName = (String)((Map<?, ?>)userAttributes.get("properties")).get("nickname");
+        Member member = memberRepository.findByMemberIdentityKeyAndIsActive(userKey, true)
+                .orElseGet(() -> newMember(userName, userKey));
 
-        if (! optionalMember.isPresent()) {
-            authorities.add(new SimpleGrantedAuthority("MEMBER_SAVE_NEEDED"));
-            return new DefaultOAuth2User(authorities, userAttributes, userRequest.getClientRegistration().getProviderDetails()
-                    .getUserInfoEndpoint().getUserNameAttributeName());
-        }
-
-        Member member = optionalMember.get();
         if (member.isAdmin()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
@@ -67,5 +64,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userAttributes.remove("response");
         }
         return userAttributes;
+    }
+
+    private Member newMember(String userName, String userKey) {
+        Member newMember = Member.builder()
+                .name(userName)
+                .memberIdentityKey(userKey)
+                .isActive(true)
+                .build();
+        return memberEntityService.saveMember(newMember);
     }
 }

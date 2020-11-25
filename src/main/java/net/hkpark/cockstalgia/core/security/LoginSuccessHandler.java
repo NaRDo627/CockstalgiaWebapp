@@ -3,7 +3,6 @@ package net.hkpark.cockstalgia.core.security;
 
 //import com.kakaointerntask.bank.common.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
-import net.hkpark.cockstalgia.core.service.MemberEntityService;
 import net.hkpark.cockstalgia.core.service.OAuth2Service;
 import net.hkpark.cockstalgia.core.service.OAuth2ServiceFactory;
 import net.hkpark.cockstalgia.core.util.SecurityUtil;
@@ -19,18 +18,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @Component
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final OAuth2ServiceFactory oauth2ServiceFactory;
-    private final MemberEntityService memberEntityService;
 
-    public LoginSuccessHandler(OAuth2ServiceFactory oauth2ServiceFactory, MemberEntityService memberEntityService) {
+    public LoginSuccessHandler(OAuth2ServiceFactory oauth2ServiceFactory) {
         this.oauth2ServiceFactory = oauth2ServiceFactory;
-        this.memberEntityService = memberEntityService;
-        setDefaultTargetUrl("/");
+        setDefaultTargetUrl("/admin");
     }
 
     @Override

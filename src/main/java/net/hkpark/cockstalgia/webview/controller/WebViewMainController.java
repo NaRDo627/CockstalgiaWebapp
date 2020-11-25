@@ -60,6 +60,10 @@ public class WebViewMainController {
         session.removeAttribute("memberIdentityKeyBaseVo");
         session.removeAttribute("socialType");
 
+        if (! StringUtils.isEmpty(birthday)) {
+            birthday = birthday.split("-")[1] + birthday.split("-")[2];
+        }
+
         MemberIdentityKeyBaseVo newBaseVo = MemberIdentityKeyBaseVo.builder()
                 .realname(StringUtils.isEmpty(realname) ? baseVoFromSession.getRealname() : realname)
                 .birthday(StringUtils.isEmpty(birthday) ? baseVoFromSession.getBirthday() : birthday)
