@@ -1,23 +1,22 @@
 package net.hkpark.config;
 
-import lombok.AllArgsConstructor;
-import net.hkpark.cockstalgia.core.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import net.hkpark.cockstalgia.core.security.CustomOAuth2Provider;
 import net.hkpark.cockstalgia.core.security.LoginSuccessHandler;
 import net.hkpark.cockstalgia.core.service.CustomOAuth2UserService;
-import net.hkpark.cockstalgia.core.service.Oauth2ServiceFactory;
+import net.hkpark.cockstalgia.core.service.DatabaseOAuth2AuthorizedClientService;
+import net.hkpark.cockstalgia.core.service.OAuth2ServiceFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -31,19 +30,10 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService customOAuth2UserService;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler("/");
-    }
+    private final LoginSuccessHandler loginSuccessHandler;
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
@@ -53,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http.csrf().disable()
+        http.csrf().disable().headers().frameOptions().disable()
+            .and()
                 .authorizeRequests()
                 .antMatchers("/webjars/**",
                         "/vendor/**",
@@ -63,13 +54,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**").permitAll()
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/register").hasAnyAuthority("NEED_MORE_INFO")
 //                .antMatchers("/**").hasRole("USER")
+                .antMatchers("/h2-console").hasIpAddress("192.168.0/24")
+                .antMatchers("/console/**").permitAll()
                 .antMatchers("/**").permitAll()
+
             .and()
                 .oauth2Login()
+                .loginPage("/admin/login")
                 .userInfoEndpoint().userService(customOAuth2UserService)  // 네이버 USER INFO의 응답을 처리하기 위한 설정
             .and()
-                .successHandler(loginSuccessHandler())
+                .successHandler(loginSuccessHandler)
                 .failureUrl("/loginFailure")
             .and()
                 .exceptionHandling()
@@ -84,10 +80,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .permitAll()
             .and().logout()
                 .logoutUrl("/admin/logout")
-                .logoutSuccessHandler(logoutSuccessHandler())
                 .logoutSuccessUrl("/admin/login")
                 .permitAll();
     }
+
+//    @Bean
+//    public OAuth2AuthorizedClientService authorizedClientService() {
+//        return new DatabaseOAuth2AuthorizedClientService();
+//    }
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository(

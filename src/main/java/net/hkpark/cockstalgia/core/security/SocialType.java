@@ -18,7 +18,7 @@ public enum SocialType {
 
     SocialType(String name) { this.name = name; }
 
-    public static SocialType of(String name) {
+    public static SocialType ofClientRegistrationId(String name) {
         name = name.toLowerCase();
         String finalName = name;
         return Arrays.stream(values())

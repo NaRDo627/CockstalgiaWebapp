@@ -6,7 +6,7 @@ import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import net.hkpark.config.DbUnitConfig;
-import net.hkpark.config.TransactionConfig;
+//import net.hkpark.config.TransactionConfig;
 import net.hkpark.cockstalgia.core.constant.MemberType;
 
 import net.hkpark.cockstalgia.core.entity.Member;

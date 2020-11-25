@@ -2,27 +2,35 @@ package net.hkpark.cockstalgia.core.security;
 
 
 //import com.kakaointerntask.bank.common.SecurityUtil;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.hkpark.cockstalgia.core.service.MemberEntityService;
+import net.hkpark.cockstalgia.core.service.OAuth2Service;
+import net.hkpark.cockstalgia.core.service.OAuth2ServiceFactory;
+import net.hkpark.cockstalgia.core.util.SecurityUtil;
+import net.hkpark.cockstalgia.core.vo.MemberIdentityKeyBaseVo;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
+@Component
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-    public LoginSuccessHandler(String defaultTargetUrl) {
-        setDefaultTargetUrl(defaultTargetUrl);
+    private final OAuth2ServiceFactory oauth2ServiceFactory;
+    private final MemberEntityService memberEntityService;
+
+    public LoginSuccessHandler(OAuth2ServiceFactory oauth2ServiceFactory, MemberEntityService memberEntityService) {
+        this.oauth2ServiceFactory = oauth2ServiceFactory;
+        this.memberEntityService = memberEntityService;
+        setDefaultTargetUrl("/");
     }
 
     @Override
@@ -32,21 +40,19 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             throws ServletException, IOException {
         log.info(String.format("id : \"%s\" logged in successfully", authentication.getName()));
 
+        OAuth2AuthenticationToken auth2AuthenticationToken = (OAuth2AuthenticationToken)authentication;
         HttpSession session = request.getSession();
-        List<String> authorities = authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
 
-        if (authorities.contains("NEED_MORE_INFO")) {
-            session.setAttribute("needMoreInfo", true);
+        if (SecurityUtil.hasRole(authentication.getAuthorities(), "NEED_MORE_INFO")) {
+            SocialType socialType =
+                    SocialType.ofClientRegistrationId(auth2AuthenticationToken.getAuthorizedClientRegistrationId());
+            OAuth2Service oauth2Service = oauth2ServiceFactory.getInstanceBySocialType(socialType);
+            OAuth2User user = (OAuth2User)authentication.getPrincipal();
+            MemberIdentityKeyBaseVo memberIdentityKeyBaseVo = oauth2Service.getKeyBaseVoFromAttributes(user.getAttributes());
+            session.setAttribute("memberIdentityKeyBaseVo", memberIdentityKeyBaseVo);
             getRedirectStrategy().sendRedirect(request, response, "/register");
             return;
         }
-
-        OAuth2User user = (OAuth2User)authentication.getPrincipal();
-
-
 
         /* 만약 다른 페이지에서 로그인 페이지로 넘어왔다면 해당 페이지로 리다이렉트 */
 //        Optional<String> optRedirectUrl = Optional.ofNullable((String)session.getAttribute("prevPage"));
@@ -57,10 +63,10 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 //            return;
 //        }
 
-//        if (SecurityUtil.hasRole(authentication.getAuthorities(), "ROLE_ADMIN")) {
-//            getRedirectStrategy().sendRedirect(request, response, "/admin");
-//            return;
-//        }
+        if (SecurityUtil.hasRole(authentication.getAuthorities(), "ROLE_ADMIN")) {
+            getRedirectStrategy().sendRedirect(request, response, "/admin");
+            return;
+        }
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

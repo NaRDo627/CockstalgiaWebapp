@@ -53,6 +53,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
 	implementation group: 'mysql', name: 'mysql-connector-java'
 	implementation "net.hkpark:kakao-sdk:${kakaoSdkVersion}"

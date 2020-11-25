@@ -20,19 +20,12 @@
           <div class="col-lg-12">
             <div class="p-5">
               <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">이것만 하면 끝나요!</h1>
+                <h1 class="h4 text-gray-900 mb-4">등록이 완료되었습니다. 로그인 해주세요.</h1>
               </div>
               <form class="user" action="/register" method="post">
-                <div class="form-group">
-                  <input th:if="${#strings.isEmpty(baseVo.getRealname())}"
-                         type="text" class="form-control form-control-user" id="realname" name="realname" placeholder="본명을 입력해 주세요." />
-                  <br th:if="${#strings.isEmpty(baseVo.getRealname())}">
-                  <input th:if="${#strings.isEmpty(baseVo.getBirthday())}"
-                         type="text" class="form-control form-control-user" id="birthday" name="birthday" placeholder="생일을 입력해 주세요.(ex. 0627)" />
-                </div>
-                <button class="btn btn-primary btn-user btn-block">
+                <a href="/admin/login" class="btn btn-primary btn-user btn-block">
                   Register Account
-                </button>
+                </a>
                 <hr>
               </form>
             </div>
