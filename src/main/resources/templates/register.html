@@ -26,8 +26,8 @@
                 <div class="form-group">
                   <input th:if="${#strings.isEmpty(baseVo.getRealname())}"
                          type="text" class="form-control form-control-user" id="realname" name="realname" placeholder="본명을 입력해 주세요." />
-                  <br th:if="${#strings.isEmpty(baseVo.getRealname())}"><!--th:if="${#strings.isEmpty(baseVo.getBirthday())}"-->
-                  <input
+                  <br th:if="${#strings.isEmpty(baseVo.getRealname())}">
+                  <input th:if="${#strings.isEmpty(baseVo.getBirthday())}"
                          type="text" class="form-control form-control-user" id="birthday" name="birthday" placeholder="생일을 입력해 주세요." />
                 </div>
                 <button class="btn btn-primary btn-user btn-block">
