@@ -5,6 +5,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+import net.hkpark.cockstalgia.core.exception.EntityNotFoundException;
 import net.hkpark.config.DbUnitConfig;
 //import net.hkpark.config.TransactionConfig;
 import net.hkpark.cockstalgia.core.constant.MemberType;
@@ -72,5 +73,23 @@ class MemberRepositoryTest {
         assertThrows(DataIntegrityViolationException.class, () -> memberRepository.save(newMember));
 
         // then - throws
+    }
+
+    @Test
+    @DatabaseSetup("classpath:dbunit/dataset/dao/MemberRepositoryTest/멤버_삽입_테스트_setup.xml")
+    public void 멤버_조회_테스트() {
+        // given - DatabaseSetup
+        Member newMember = Member.builder()
+                .name("사람이름")
+                .memberIdentityKey("test")
+                .kakaoBotUserId("asdfg")
+                .kakaoPlusFriendKey("12345")
+                .build();
+
+        // when
+        Member savedMember = memberRepository.findByMemberIdentityKeyAndIsActive("asdf", true).orElseThrow(EntityNotFoundException::new);
+
+        // then
+        assertEquals("asdf", savedMember.getMemberIdentityKey());
     }
 }

@@ -22,24 +22,8 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class KakaoDeveloperApiService {
-    private static final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
     private static final String KAKAO_USER_ME_URL = "https://kapi.kakao.com/v2/user/me";
     private static final String KAKAO_UPDATE_PROFILE_URL = "https://kapi.kakao.com/v1/user/update_profile";
-
-    @Value("${kakao.restapi.secret}")
-    private String kakaoRestapiSecret;
-
-    @Value("${app.public.access.url}")
-    private String appPublicAccessUrl;
-
-    public Oauth2TokenDto getKakaoToken(String kakaoAuthCode) {
-        MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
-        parameters.add("grant_type", "authorization_code");
-        parameters.add("client_id", kakaoRestapiSecret);
-        parameters.add("redirect_uri", appPublicAccessUrl + "oauth2/kakao/callback");
-        parameters.add("code", kakaoAuthCode);
-        return RestClientUtil.postForm(KAKAO_TOKEN_URL, parameters, Oauth2TokenDto.class);
-    }
 
     public KakaoUserInfoDto getUserInformation(String accessToken) {
         return RestClientUtil.exchange(KAKAO_USER_ME_URL, HttpMethod.GET,
