@@ -1,10 +1,12 @@
 package net.hkpark.cockstalgia.webview.admin.controller;
 
+import net.hkpark.cockstalgia.core.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -59,12 +61,29 @@ class WebViewAdminControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void 관리자_페이지_접속_시도_인가_테스트() throws Exception {
+    public void 관리자_페이지_접속_시도_인가_리다이렉션_테스트() throws Exception {
         // given
         String url = "/admin";
 
+
         // when
         mvc.perform(get(url))
+
+                // then
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void 관리자_페이지_접속_시도_인가_테스트() throws Exception {
+        // given
+        String url = "/admin";
+        MockHttpSession mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute("currentMember", new Member());
+
+        // when
+        mvc.perform(get(url)
+                .session(mockHttpSession))
 
                 // then
                 .andExpect(status().isOk());

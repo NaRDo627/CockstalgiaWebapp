@@ -76,15 +76,9 @@ class MemberRepositoryTest {
     }
 
     @Test
-    @DatabaseSetup("classpath:dbunit/dataset/dao/MemberRepositoryTest/멤버_삽입_테스트_setup.xml")
+    @DatabaseSetup("classpath:dbunit/dataset/dao/MemberRepositoryTest/멤버_조회_테스트_setup.xml")
     public void 멤버_조회_테스트() {
         // given - DatabaseSetup
-        Member newMember = Member.builder()
-                .name("사람이름")
-                .memberIdentityKey("test")
-                .kakaoBotUserId("asdfg")
-                .kakaoPlusFriendKey("12345")
-                .build();
 
         // when
         Member savedMember = memberRepository.findByMemberIdentityKeyAndIsActive("asdf", true).orElseThrow(EntityNotFoundException::new);
