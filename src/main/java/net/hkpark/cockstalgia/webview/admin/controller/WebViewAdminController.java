@@ -29,6 +29,7 @@ public class WebViewAdminController {
     @GetMapping(value = {"", "/"})
     public String index(Model model) {
         model.addAttribute("cocktailCount", cocktailRepository.count());
+        model.addAttribute("userName", "이름");
         return "admin/index";
     }
 

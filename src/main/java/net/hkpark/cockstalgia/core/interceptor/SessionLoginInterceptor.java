@@ -16,29 +16,22 @@ import javax.servlet.http.HttpSession;
 @Component
 @RequiredArgsConstructor
 public class SessionLoginInterceptor extends HandlerInterceptorAdapter {
-    private final MemberEntityService memberEntityService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod))
             return super.preHandle(request, response, handler);
 
-        if (request.getUserPrincipal() == null) {
-            response.sendRedirect("/login");
+        if (! isMemberAuthenticated(request)) {
+            response.sendRedirect("/admin/login");
             return false;
         }
-//
-//        HttpSession httpSession = request.getSession();
-//        Object objBankUser = httpSession.getAttribute("currentMember");
-//        OAuth2User oAuth2User = (OAuth2User)request.getUserPrincipal();
-//
-//        String authId = request.getUserPrincipal().getName();
-//        if (!(objBankUser instanceof BankUser) || !((BankUser) objBankUser).getId().equals(authId)) {
-//            BankUser bankUser = bankUserService.findBankUserById(authId);
-//            httpSession.setAttribute("bankUser", bankUser);
-//            log.info(String.format("Session info was set for id : \"%s\"", authId));
-//        }
 
         return super.preHandle(request, response, handler);
+    }
+
+    private boolean isMemberAuthenticated(HttpServletRequest request) {
+        HttpSession httpSession = request.getSession();
+        return httpSession.getAttribute("currentMember") != null;
     }
 }

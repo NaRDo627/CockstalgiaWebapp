@@ -37,6 +37,8 @@ public class ErrorPageController implements ErrorController {
         switch (status) {
             case 403:
                 return "/admin/error/403";
+            case 500:
+                return "/admin/error/500";
             default:
                 return "/admin/error/404";
         }

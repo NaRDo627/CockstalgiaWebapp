@@ -1,6 +1,7 @@
 package net.hkpark.config;
 
 import net.hkpark.cockstalgia.core.interceptor.RequestLoggerInterceptor;
+import net.hkpark.cockstalgia.core.interceptor.SessionLoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,6 +16,10 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new RequestLoggerInterceptor())
                 .excludePathPatterns("/css/**", "/fonts/**", "/plugin/**", "/scripts/**", "/vendor/**", "/js/**", "/error");
+
+        registry.addInterceptor(new SessionLoginInterceptor())
+                .addPathPatterns("/admin", "/admin/**")
+                .excludePathPatterns("/admin/login", "/css/**", "/fonts/**", "/plugin/**", "/scripts/**", "/vendor/**", "/js/**", "/error");
     }
 
     @Override

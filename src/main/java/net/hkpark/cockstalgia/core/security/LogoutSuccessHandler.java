@@ -21,10 +21,8 @@ public class LogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
             throws ServletException, IOException {
 //        log.info(String.format("id : \"%s\" logged out successfully", authentication.getName()));
 
-//        HttpSession session = request.getSession();
-//        session.removeAttribute("bankUser");
-//        log.info(String.format("Session info was removed for id : \"%s\"", authentication.getName()));
-
+        HttpSession session = request.getSession();
+        session.removeAttribute("currentMember");
         super.onLogoutSuccess(request, response, authentication);
     }
 }

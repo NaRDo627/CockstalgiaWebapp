@@ -44,7 +44,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         String userKey = oAuth2Service.getUserKeyFromAttributes(userAttributes);
-        String userName = (String)((Map<?, ?>)userAttributes.get("properties")).get("nickname");
+        String userName = (String)((Map<?, ?>)userAttributes.get("properties")).get("nickname"); // TODO 분리
         Member member = memberRepository.findByMemberIdentityKeyAndIsActive(userKey, true)
                 .orElseGet(() -> newMember(userName, userKey));
 

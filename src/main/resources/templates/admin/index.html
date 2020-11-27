@@ -23,7 +23,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <th:block th:replace="fragment/common-topbar"/>
+            <th:block th:replace="fragment/common-topbar :: formField(userName=${session.currentMember.name})"/>
             <!-- End of Topbar -->
 
             <!-- Begin Page Content -->
